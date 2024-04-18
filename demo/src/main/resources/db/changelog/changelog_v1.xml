@@ -1,0 +1,64 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+                   http://www.liquibase.org/xml/ns/pro
+                   http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd
+                   http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="USER (generated)" id="1713438736481-1">
+
+        <createTable tableName="Departments">
+            <column name="department_id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="department_pkey"/>
+            </column>
+            <column name="department_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+
+        </createTable>
+
+        <createTable tableName="Projects">
+            <column name="project_id" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="project_pkey"/>
+            </column>
+            <column name="project_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date">
+
+            </column>
+            <column name="end_date" type="date">
+
+            </column>
+        </createTable>
+
+        <createTable tableName="Employees">
+            <column name="employee_id" type="INT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_pkey"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="job_title" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="salary" type="int">
+                <constraints nullable="true"/>
+            </column>
+            <column name="department_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="Employee_Project">
+            <column name="employee_id" type="int"></column>
+            <column name="project_id" type="int"></column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
