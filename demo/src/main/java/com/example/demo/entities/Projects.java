@@ -21,8 +21,10 @@ public class Projects {
 
     private String project_name;
 
+    @Temporal(TemporalType.DATE)
     private Date start_date;
 
+    @Temporal(TemporalType.DATE)
     private Date end_date;
 
     @ManyToMany
