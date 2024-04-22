@@ -27,7 +27,7 @@ public class DepartmentsController {
     }
     @PostMapping
     ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) {
-        // persisting the user
+
         Integer id = departmentService.addDepartment(department);
         return ResponseEntity.ok("Departmenti me id:"+id+" u krijua");
     }

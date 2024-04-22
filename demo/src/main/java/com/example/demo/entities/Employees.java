@@ -16,19 +16,19 @@ import java.util.List;
 public class Employees {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO,TABLE,IDENTITY,SEQUENCE
-    private int employee_id;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO,TABLE,IDENTITY,SEQUENCE
+    private Integer employee_id;
 
     //default:length-255,nullable-true,unique-false
     //updatable,insertable
-    @Column(name="FIRST_NAME", length=20, nullable=false, unique=false)
+    @Column(name="first_name", length=20, nullable=false, unique=false)
     @NotBlank(message = "Field is required")
     private String first_name;
 
-    @Column(name = "LAST_NAME", length = 20,nullable = false)
+    @Column(name = "last_name", length = 20,nullable = false)
     private String last_name;
 
-    @Column(name = "JOB_TITLE", length = 100, nullable = false)
+    @Column(name = "job_title", length = 100, nullable = false)
     private String job_title;
 
     private int salary;
