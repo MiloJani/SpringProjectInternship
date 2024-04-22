@@ -17,7 +17,7 @@ import lombok.Setter;
 public class Departments {
 
     @Id
-    private int department_id;
+    private Integer department_id;
 
     private String department_name;
 

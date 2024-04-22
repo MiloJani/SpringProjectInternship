@@ -17,7 +17,7 @@ import java.util.List;
 public class Projects {
 
     @Id
-    private int project_id;
+    private Integer project_id;
 
     private String project_name;
 
