@@ -1,10 +1,13 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entities.Departments;
+import com.example.demo.entities.Employees;
 import com.example.demo.repositories.DepartmentsRepository;
 import com.example.demo.services.DepartmentService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,58 @@ public class DepartmentServiceImplementation implements DepartmentService {
     public List<Departments> getAllDepartments() {
 
         return (List<Departments>) departmentsRepository.findAll();
+    }
+
+    @Override
+    public List<EmployeeDTO> getAllEmployeesFromDepartment(Integer id) {
+
+        Optional<Departments> department = departmentsRepository.findById(id);
+
+        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+
+        if (department.isPresent()){
+
+            Departments foundDepartment = department.get();
+
+            List<Employees> employees = foundDepartment.getEmployees();
+
+            for(Employees entity : employees){
+
+                EmployeeDTO employeeDTO = new EmployeeDTO();
+                employeeDTO.setFirst_name(entity.getFirst_name());
+                employeeDTO.setLast_name(entity.getLast_name());
+                employeeDTO.setJob_title(entity.getJob_title());
+                employeeDTO.setSalary(entity.getSalary());
+
+                employeeDTOS.add(employeeDTO);
+            }
+
+
+        }
+        return employeeDTOS;
+    }
+
+    @Override
+    public Integer getTotalEmployeeSalary(Integer id) {
+
+        Optional<Departments> departments = departmentsRepository.findById(id);
+
+        if (departments.isPresent()){
+
+            Integer totalSum = 0 ;
+
+            Departments department = departments.get();
+
+            List<Employees> employees = department.getEmployees();
+
+            for (Employees employee : employees){
+
+                totalSum += employee.getSalary();
+            }
+
+            return totalSum;
+        }
+        return null;
     }
 
     @Override

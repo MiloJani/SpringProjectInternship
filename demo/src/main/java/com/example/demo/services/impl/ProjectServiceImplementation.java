@@ -1,5 +1,6 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.entities.Employees;
 import com.example.demo.entities.Projects;
 import com.example.demo.repositories.ProjectsRepository;
 import com.example.demo.services.ProjectService;
@@ -21,6 +22,20 @@ public class ProjectServiceImplementation implements ProjectService {
     public List<Projects> getAllProjects() {
 
         return (List<Projects>) projectsRepository.findAll();
+    }
+
+    @Override
+    public Projects getProjectById(Integer id) {
+
+        Optional<Projects> project = projectsRepository.findById(id);
+
+        if (project.isPresent()){
+
+            Projects foundProject = project.get();
+
+            return foundProject;
+        }
+        return null;
     }
 
     @Override
@@ -64,4 +79,27 @@ public class ProjectServiceImplementation implements ProjectService {
         }
         return null;
     }
+
+    @Override
+    public Integer addEmployeeToProject(Integer projectId, Employees employee) {
+
+        Optional<Projects> project = projectsRepository.findById(projectId);
+
+        if (project.isPresent()){
+
+            Projects foundProject = project.get();
+
+            List<Employees> employees = foundProject.getEmployees();
+
+            employees.add(employee);
+
+            foundProject.setEmployees(employees);
+
+            projectsRepository.save(foundProject);
+
+            return employee.getEmployee_id();
+        }
+        return null;
+    }
+
 }

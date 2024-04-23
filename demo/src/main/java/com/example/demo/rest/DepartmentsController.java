@@ -1,6 +1,8 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entities.Departments;
+import com.example.demo.entities.Employees;
 import com.example.demo.services.DepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,23 @@ public class DepartmentsController {
         List<Departments> departments = departmentService.getAllDepartments();
         return new ResponseEntity<>(departments, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    ResponseEntity<List<EmployeeDTO>> getAllEmployeesFromDepartment(@PathVariable Integer id){
+
+        List<EmployeeDTO> employees = departmentService.getAllEmployeesFromDepartment(id);
+
+        return new ResponseEntity<>(employees,HttpStatus.OK);
+    }
+
+    @GetMapping("/salary/{id}")
+    ResponseEntity<String> getTotalEmployeeSalary(@PathVariable Integer id){
+
+        Integer sum = departmentService.getTotalEmployeeSalary(id);
+
+        return ResponseEntity.ok("Total salary e departamentit me id: "+id+" eshte "+sum);
+    }
+
     @PostMapping
     ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) {
 

@@ -1,5 +1,7 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.EmployeeDTO;
+import com.example.demo.dto.ProjectDTO;
 import com.example.demo.entities.Employees;
 import com.example.demo.services.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,22 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<Employees> getEmployeeById(@PathVariable Integer id){
+
+        Employees employee = employeeService.getEmployeeById(id);
+
+        return ResponseEntity.ok(employee);
+    }
+
+    @GetMapping("/projects/{id}")
+    ResponseEntity<List<ProjectDTO>> getAllEmployeesProject(@PathVariable Integer id){
+
+        List<ProjectDTO> projects = employeeService.getAllEmployeeProjects(id);
+
+        return new ResponseEntity<>(projects,HttpStatus.OK);
+
+    }
     @PostMapping
     ResponseEntity<String> createEmployee(@RequestBody Employees employee){
 

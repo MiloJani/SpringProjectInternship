@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.entities.Employees;
 import com.example.demo.entities.Projects;
 import com.example.demo.services.ProjectService;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,27 @@ public class ProjectsController {
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<Projects> getProjectById(@PathVariable Integer id){
+
+        Projects project = projectService.getProjectById(id);
+
+        return ResponseEntity.ok(project);
+    }
+
     @PostMapping
     ResponseEntity<String> createProject(@RequestBody Projects project){
 
         Integer id = projectService.createProject(project);
         return ResponseEntity.ok("Projekti me id: "+id+" u krijua");
+    }
+
+    @PostMapping("/{projectId}")
+    ResponseEntity<String> addEmployeeToProject( @RequestBody Employees employee,@PathVariable Integer projectId){
+
+        Integer id = projectService.addEmployeeToProject(projectId,employee);
+        return ResponseEntity.ok("Employee me id: "+id+
+                " u shtua ne projektin me id: "+projectId);
     }
 
     @PutMapping("/{id}")

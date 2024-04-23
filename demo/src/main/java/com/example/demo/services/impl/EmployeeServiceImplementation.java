@@ -1,10 +1,13 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.ProjectDTO;
 import com.example.demo.entities.Employees;
+import com.example.demo.entities.Projects;
 import com.example.demo.repositories.EmployeesRepository;
 import com.example.demo.services.EmployeeService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +27,48 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
+    public Employees getEmployeeById(Integer id) {
+
+        Optional<Employees> employee = employeesRepository.findById(id);
+
+        if (employee.isPresent()){
+
+            Employees foundEmployee = employee.get();
+
+            return foundEmployee;
+        }
+        return null;
+    }
+
+    @Override
+    public List<ProjectDTO> getAllEmployeeProjects(Integer id) {
+
+        Optional<Employees> employee = employeesRepository.findById(id);
+
+        List<ProjectDTO> projectDTOS = new ArrayList<>();
+
+        if (employee.isPresent()){
+
+            Employees foundEmployee = employee.get();
+
+            List<Projects> projects = foundEmployee.getProjects();
+
+            for (Projects project : projects){
+
+                ProjectDTO projectDTO = new ProjectDTO();
+                projectDTO.setProject_name(project.getProject_name());
+                projectDTO.setStart_date(project.getStart_date());
+                projectDTO.setEnd_date(project.getEnd_date());
+
+                projectDTOS.add(projectDTO);
+            }
+
+
+        }
+        return projectDTOS;
+    }
+
+    @Override
     public Integer createEmployee(Employees employee) {
 
         Employees newEmployee = new Employees();
@@ -33,7 +78,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
         newEmployee.setJob_title(employee.getJob_title());
         newEmployee.setSalary(employee.getSalary());
         newEmployee.setDepartment(employee.getDepartment());
-        newEmployee.setProjects(employee.getProjects());
+//        newEmployee.setProjects(employee.getProjects());
         employeesRepository.save(newEmployee);
         return newEmployee.getEmployee_id();
     }
