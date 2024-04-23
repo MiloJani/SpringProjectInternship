@@ -3,6 +3,7 @@ package com.example.demo.services.impl;
 import com.example.demo.dto.ProjectDTO;
 import com.example.demo.entities.Employees;
 import com.example.demo.entities.Projects;
+import com.example.demo.exceptions.RecordNotFoundException;
 import com.example.demo.repositories.EmployeesRepository;
 import com.example.demo.services.EmployeeService;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.Optional;
 @Service
 public class EmployeeServiceImplementation implements EmployeeService {
 
-    private EmployeesRepository employeesRepository;
+    private final EmployeesRepository employeesRepository;
 
     public EmployeeServiceImplementation(EmployeesRepository employeesRepository) {
         this.employeesRepository = employeesRepository;
@@ -23,7 +24,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public List<Employees> getAllEmployees() {
 
-        return (List<Employees>) employeesRepository.findAll() ;
+        return employeesRepository.findAll();
     }
 
     @Override
@@ -31,13 +32,9 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
         Optional<Employees> employee = employeesRepository.findById(id);
 
-        if (employee.isPresent()){
+        return employee.orElseThrow(() -> new RecordNotFoundException(
+                "Nuk u gjet employee me kete id"));
 
-            Employees foundEmployee = employee.get();
-
-            return foundEmployee;
-        }
-        return null;
     }
 
     @Override
@@ -63,24 +60,18 @@ public class EmployeeServiceImplementation implements EmployeeService {
                 projectDTOS.add(projectDTO);
             }
 
-
         }
+        else throw new RuntimeException("Nuk u gjet employee me kete id");
+
         return projectDTOS;
     }
 
     @Override
     public Integer createEmployee(Employees employee) {
 
-        Employees newEmployee = new Employees();
-        newEmployee.setEmployee_id(employee.getEmployee_id());
-        newEmployee.setFirst_name(employee.getFirst_name());
-        newEmployee.setLast_name(employee.getLast_name());
-        newEmployee.setJob_title(employee.getJob_title());
-        newEmployee.setSalary(employee.getSalary());
-        newEmployee.setDepartment(employee.getDepartment());
-//        newEmployee.setProjects(employee.getProjects());
-        employeesRepository.save(newEmployee);
-        return newEmployee.getEmployee_id();
+        Employees createEmployee = createEmployeeEntity(employee);
+        employeesRepository.save(createEmployee);
+        return createEmployee.getEmployee_id();
     }
 
     @Override
@@ -94,8 +85,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
             updateEmployee.setSalary(employee.getSalary());
             employeesRepository.save(updateEmployee);
             return updateEmployee;
-        }
-        return null;
+
+        }else throw  new RecordNotFoundException("Nuk u gjet employee me kete id");
     }
 
     @Override
@@ -108,7 +99,20 @@ public class EmployeeServiceImplementation implements EmployeeService {
             Employees deleteEmployee = employee.get();
             employeesRepository.delete(deleteEmployee);
             return id;
-        }
-        return null;
+
+        }else throw  new RecordNotFoundException("Nuk u gjet employee me kete id");
+    }
+
+    private Employees createEmployeeEntity(Employees employee){
+
+        Employees newEmployee = new Employees();
+        newEmployee.setEmployee_id(employee.getEmployee_id());
+        newEmployee.setFirst_name(employee.getFirst_name());
+        newEmployee.setLast_name(employee.getLast_name());
+        newEmployee.setJob_title(employee.getJob_title());
+        newEmployee.setSalary(employee.getSalary());
+        newEmployee.setDepartment(employee.getDepartment());
+//        newEmployee.setProjects(employee.getProjects());
+        return newEmployee;
     }
 }

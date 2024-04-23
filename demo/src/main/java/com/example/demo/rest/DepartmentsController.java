@@ -2,7 +2,6 @@ package com.example.demo.rest;
 
 import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entities.Departments;
-import com.example.demo.entities.Employees;
 import com.example.demo.services.DepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/departments")
 public class DepartmentsController {
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
     public DepartmentsController(DepartmentService departmentService) {
         this.departmentService = departmentService;

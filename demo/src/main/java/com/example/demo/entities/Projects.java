@@ -17,6 +17,7 @@ import java.util.List;
 public class Projects {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer project_id;
 
     private String project_name;

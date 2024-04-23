@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import com.example.demo.dto.ProjectDTO;
 import com.example.demo.entities.Employees;
 import com.example.demo.entities.Projects;
 import com.example.demo.services.ProjectService;
@@ -13,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/projects")
 public class ProjectsController {
 
-    private ProjectService projectService;
+    private final ProjectService projectService;
 
     public ProjectsController(ProjectService projectService) {
         this.projectService = projectService;
@@ -35,9 +36,9 @@ public class ProjectsController {
     }
 
     @PostMapping
-    ResponseEntity<String> createProject(@RequestBody Projects project){
+    ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO){
 
-        Integer id = projectService.createProject(project);
+        Integer id = projectService.createProject(projectDTO);
         return ResponseEntity.ok("Projekti me id: "+id+" u krijua");
     }
 
@@ -50,9 +51,9 @@ public class ProjectsController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Projects> updateProject(@RequestBody Projects project,@PathVariable Integer id){
+    ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO,@PathVariable Integer id){
 
-        Projects updatedProject = projectService.updateProject(project,id);
+        ProjectDTO updatedProject = projectService.updateProject(projectDTO,id);
         return ResponseEntity.ok(updatedProject);
     }
 
@@ -61,6 +62,6 @@ public class ProjectsController {
 
         Integer projectId = projectService.deleteProject(id);
 
-        return ResponseEntity.ok("Projekti me id: "+id+" u fshi");
+        return ResponseEntity.ok("Projekti me id: "+projectId+" u fshi");
     }
 }

@@ -3,9 +3,13 @@ package com.example.demo.dto;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
+@Getter
+@Setter
 public class ProjectDTO {
 
     @Id
@@ -35,35 +39,5 @@ public class ProjectDTO {
         this.end_date = end_date;
     }
 
-    public Integer getProject_id() {
-        return project_id;
-    }
 
-    public void setProject_id(Integer project_id) {
-        this.project_id = project_id;
-    }
-
-    public String getProject_name() {
-        return project_name;
-    }
-
-    public void setProject_name(String project_name) {
-        this.project_name = project_name;
-    }
-
-    public Date getStart_date() {
-        return start_date;
-    }
-
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
-    }
-
-    public Date getEnd_date() {
-        return end_date;
-    }
-
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
-    }
 }

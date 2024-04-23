@@ -1,18 +1,21 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.dto.ProjectDTO;
 import com.example.demo.entities.Employees;
 import com.example.demo.entities.Projects;
+import com.example.demo.exceptions.RecordNotFoundException;
 import com.example.demo.repositories.ProjectsRepository;
 import com.example.demo.services.ProjectService;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProjectServiceImplementation implements ProjectService {
 
-    private ProjectsRepository projectsRepository;
+    private final ProjectsRepository projectsRepository;
 
     public ProjectServiceImplementation(ProjectsRepository projectsRepository) {
         this.projectsRepository = projectsRepository;
@@ -21,7 +24,7 @@ public class ProjectServiceImplementation implements ProjectService {
     @Override
     public List<Projects> getAllProjects() {
 
-        return (List<Projects>) projectsRepository.findAll();
+        return projectsRepository.findAll();
     }
 
     @Override
@@ -29,41 +32,33 @@ public class ProjectServiceImplementation implements ProjectService {
 
         Optional<Projects> project = projectsRepository.findById(id);
 
-        if (project.isPresent()){
+        return project.orElseThrow(() -> new RecordNotFoundException(
+                "Nuk u gjet projekt me kete id"));
 
-            Projects foundProject = project.get();
-
-            return foundProject;
-        }
-        return null;
     }
 
     @Override
-    public Integer createProject(Projects project) {
+    public Integer createProject(ProjectDTO projectDTO) {
 
-        Projects newProject = new Projects();
-        newProject.setProject_id(project.getProject_id());
-        newProject.setProject_name(project.getProject_name());
-        newProject.setStart_date(project.getStart_date());
-        newProject.setEnd_date(project.getEnd_date());
+        Projects newProject = mapToProjectEntity(projectDTO);
         projectsRepository.save(newProject);
         return newProject.getProject_id();
     }
 
     @Override
-    public Projects updateProject(Projects project, Integer id) {
+    public ProjectDTO updateProject(ProjectDTO projectDTO, Integer id) {
 
         Optional<Projects> projects = projectsRepository.findById(id);
 
-        //Duam te bejme update vetem emrin
+        //Psh Duam te bejme update vetem emrin
         if (projects.isPresent()){
             Projects updateProject = projects.get();
-            updateProject.setProject_name(project.getProject_name());
-            projectsRepository.save(updateProject);
-            return updateProject;
+            updateProject.setProject_name(projectDTO.getProject_name());
+            Projects savedProject = projectsRepository.save(updateProject);
+            return mapToProjectDTO(savedProject);
 
-        }
-        return null;
+        }else throw new RecordNotFoundException(
+                "Nuk u gjet projekt me kete id");
     }
 
     @Override
@@ -76,8 +71,8 @@ public class ProjectServiceImplementation implements ProjectService {
             Projects deleteProject = projects.get();
             projectsRepository.delete(deleteProject);
             return id;
-        }
-        return null;
+        }else throw new RecordNotFoundException(
+                "Nuk u gjet projekt me kete id");
     }
 
     @Override
@@ -99,7 +94,29 @@ public class ProjectServiceImplementation implements ProjectService {
 
             return employee.getEmployee_id();
         }
-        return null;
+        else throw new RecordNotFoundException(
+                "Nuk u gjet projekt me kete id");
+    }
+
+    private ProjectDTO mapToProjectDTO(Projects project) {
+        Integer id = project.getProject_id();
+        String project_name = project.getProject_name();
+        Date start_date = project.getStart_date();
+        Date end_date = project.getEnd_date();
+
+        return new ProjectDTO(id, project_name, start_date, end_date);
+    }
+
+    private Projects mapToProjectEntity(ProjectDTO projectDTO) {
+
+        String projectName = projectDTO.getProject_name();
+        Date start_date = projectDTO.getStart_date();
+        Date end_date = projectDTO.getEnd_date();
+        Projects project = new Projects();
+        project.setProject_name(projectName);
+        project.setStart_date(start_date);
+        project.setEnd_date(end_date);
+        return project;
     }
 
 }

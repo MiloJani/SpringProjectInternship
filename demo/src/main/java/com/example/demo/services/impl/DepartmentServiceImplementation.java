@@ -3,6 +3,7 @@ package com.example.demo.services.impl;
 import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entities.Departments;
 import com.example.demo.entities.Employees;
+import com.example.demo.exceptions.RecordNotFoundException;
 import com.example.demo.repositories.DepartmentsRepository;
 import com.example.demo.services.DepartmentService;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     @Override
     public List<Departments> getAllDepartments() {
 
-        return (List<Departments>) departmentsRepository.findAll();
+        return departmentsRepository.findAll();
     }
 
     @Override
@@ -75,7 +76,8 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
             return totalSum;
         }
-        return null;
+        else throw new RecordNotFoundException(
+                "Nuk u gjet departament me kete id");
     }
 
     @Override
@@ -99,7 +101,8 @@ public class DepartmentServiceImplementation implements DepartmentService {
             departmentsRepository.save(updateDepartment);
             return updateDepartment;
         }
-        return null;
+        else throw new RecordNotFoundException(
+                "Nuk u gjet departament me kete id");
     }
 
     @Override
@@ -111,6 +114,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
             departmentsRepository.delete(deleteDepartment);
             return id;
         }
-        return null;
+        else throw new RecordNotFoundException(
+                "Nuk u gjet departament me kete id");
     }
 }

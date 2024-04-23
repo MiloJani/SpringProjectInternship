@@ -1,11 +1,9 @@
 package com.example.demo.rest;
 
-import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.dto.ProjectDTO;
 import com.example.demo.entities.Employees;
 import com.example.demo.services.EmployeeService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api/employees")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -66,6 +64,6 @@ public class EmployeeController {
 
         Integer employeeId = employeeService.deleteEmployee(id);
 
-        return ResponseEntity.ok("Employee me id: "+ id +" u fshi");
+        return ResponseEntity.ok("Employee me id: "+ employeeId +" u fshi");
     }
 }
