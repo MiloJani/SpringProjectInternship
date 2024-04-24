@@ -1,11 +1,11 @@
-package com.example.demo.services.impl;
+package com.example.demo.dataproviders.services.impl;
 
-import com.example.demo.dto.EmployeeDTO;
-import com.example.demo.entities.Departments;
-import com.example.demo.entities.Employees;
-import com.example.demo.exceptions.RecordNotFoundException;
-import com.example.demo.repositories.DepartmentsRepository;
-import com.example.demo.services.DepartmentService;
+import com.example.demo.dataproviders.entities.Departments;
+import com.example.demo.dataproviders.entities.Employees;
+import com.example.demo.dataproviders.repositories.DepartmentsRepository;
+import com.example.demo.dataproviders.services.DepartmentService;
+import com.example.demo.dataproviders.dto.EmployeeDTO;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

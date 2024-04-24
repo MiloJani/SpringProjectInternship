@@ -1,11 +1,11 @@
-package com.example.demo.services.impl;
+package com.example.demo.dataproviders.services.impl;
 
-import com.example.demo.dto.ProjectDTO;
-import com.example.demo.entities.Employees;
-import com.example.demo.entities.Projects;
-import com.example.demo.exceptions.RecordNotFoundException;
-import com.example.demo.repositories.ProjectsRepository;
-import com.example.demo.services.ProjectService;
+import com.example.demo.dataproviders.entities.Employees;
+import com.example.demo.dataproviders.repositories.ProjectsRepository;
+import com.example.demo.dataproviders.services.ProjectService;
+import com.example.demo.dataproviders.dto.ProjectDTO;
+import com.example.demo.dataproviders.entities.Projects;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

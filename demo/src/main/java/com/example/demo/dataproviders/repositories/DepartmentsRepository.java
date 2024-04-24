@@ -1,6 +1,6 @@
-package com.example.demo.repositories;
+package com.example.demo.dataproviders.repositories;
 
-import com.example.demo.entities.Departments;
+import com.example.demo.dataproviders.entities.Departments;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

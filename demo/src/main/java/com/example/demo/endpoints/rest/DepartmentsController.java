@@ -1,8 +1,8 @@
-package com.example.demo.rest;
+package com.example.demo.endpoints.rest;
 
-import com.example.demo.dto.EmployeeDTO;
-import com.example.demo.entities.Departments;
-import com.example.demo.services.DepartmentService;
+import com.example.demo.dataproviders.dto.EmployeeDTO;
+import com.example.demo.dataproviders.entities.Departments;
+import com.example.demo.dataproviders.services.DepartmentService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

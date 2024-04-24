@@ -1,8 +1,8 @@
-package com.example.demo.rest;
+package com.example.demo.endpoints.rest;
 
-import com.example.demo.dto.ProjectDTO;
-import com.example.demo.entities.Employees;
-import com.example.demo.services.EmployeeService;
+import com.example.demo.dataproviders.dto.ProjectDTO;
+import com.example.demo.dataproviders.entities.Employees;
+import com.example.demo.dataproviders.services.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

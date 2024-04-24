@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.dataproviders.dto;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;

@@ -1,8 +1,8 @@
-package com.example.demo.services;
+package com.example.demo.dataproviders.services;
 
-import com.example.demo.dto.ProjectDTO;
-import com.example.demo.entities.Employees;
-import com.example.demo.entities.Projects;
+import com.example.demo.dataproviders.entities.Employees;
+import com.example.demo.dataproviders.dto.ProjectDTO;
+import com.example.demo.dataproviders.entities.Projects;
 
 import java.util.List;
 
@@ -18,5 +18,5 @@ public interface ProjectService {
 
     Integer deleteProject(Integer id);
 
-    Integer addEmployeeToProject(Integer projectId,Employees employee);
+    Integer addEmployeeToProject(Integer projectId, Employees employee);
 }
