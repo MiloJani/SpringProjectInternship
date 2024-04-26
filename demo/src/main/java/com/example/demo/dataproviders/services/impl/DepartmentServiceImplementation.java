@@ -50,10 +50,10 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
                 employeeDTOS.add(employeeDTO);
             }
-
+            return employeeDTOS;
 
         }
-        return employeeDTOS;
+        else throw new RecordNotFoundException("Nuk u gjet departament");
     }
 
     @Override

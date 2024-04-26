@@ -74,9 +74,9 @@ public class ProjectServiceImplementation implements ProjectService {
         }else throw new RecordNotFoundException(
                 "Nuk u gjet projekt me kete id");
     }
-
+//log.info
     @Override
-    public Integer addEmployeeToProject(Integer projectId, Employees employee) {
+    public Integer addEmployeeToProject(Integer projectId, Employees employee){ //mund te perdoret nje employeeDTO qe ka vtm id
 
         Optional<Projects> project = projectsRepository.findById(projectId);
 
