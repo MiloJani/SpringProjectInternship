@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.RecordAlreadyExists;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.DepartmentsRepository;
@@ -83,11 +84,16 @@ public class DepartmentServiceImplementation implements DepartmentService {
     @Override
     public Integer addDepartment(Departments department) {
 
-        Departments newDepartment = new Departments();
-        newDepartment.setDepartment_id(department.getDepartment_id());
-        newDepartment.setDepartment_name(department.getDepartment_name());
-        departmentsRepository.save(newDepartment);
-        return newDepartment.getDepartment_id();
+        Departments existingDepartment = departmentsRepository
+                .findById(department.getDepartment_id()).orElse(null);
+        if (existingDepartment==null) {
+            Departments newDepartment = new Departments();
+            newDepartment.setDepartment_id(department.getDepartment_id());
+            newDepartment.setDepartment_name(department.getDepartment_name());
+            departmentsRepository.save(newDepartment);
+            return newDepartment.getDepartment_id();
+        }
+        else throw new RecordAlreadyExists("Deaprtment already exists");
     }
 
     @Override
@@ -103,6 +109,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
         }
         else throw new RecordNotFoundException(
                 "Nuk u gjet departament me kete id");
+
     }
 
     @Override

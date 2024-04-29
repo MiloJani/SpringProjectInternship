@@ -1,5 +1,7 @@
 package com.example.demo.endpoints.rest;
 
+import com.example.demo.core.exceptions.ErrorResponse;
+import com.example.demo.core.exceptions.RecordAlreadyExists;
 import com.example.demo.dataproviders.dto.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.services.DepartmentService;
@@ -65,4 +67,17 @@ public class DepartmentsController {
         Integer departmentId = departmentService.deleteDepartment(id);
         return ResponseEntity.ok("Departamenti me id:"+departmentId+" u fshi");
     }
+
+
+//    @ExceptionHandler(value
+//            = RecordAlreadyExists.class)
+//    @ResponseStatus(HttpStatus.CONFLICT)
+//    public ErrorResponse
+//    handleCustomerAlreadyExistsException(
+//            RecordAlreadyExists ex)
+//    {
+//        return new ErrorResponse(HttpStatus.CONFLICT.value(),
+//                ex.getMessage());
+//    }
+
 }

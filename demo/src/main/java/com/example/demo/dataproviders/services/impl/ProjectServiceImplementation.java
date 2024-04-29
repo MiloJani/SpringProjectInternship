@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.RecordAlreadyExists;
 import com.example.demo.dataproviders.entities.Employees;
 //import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
@@ -44,9 +45,15 @@ public class ProjectServiceImplementation implements ProjectService {
     @Override
     public Integer createProject(ProjectDTO projectDTO) {
 
-        Projects newProject = mapToProjectEntity(projectDTO);
-        projectsRepository.save(newProject);
-        return newProject.getProject_id();
+        Projects existingProject = projectsRepository.findById(projectDTO.getProject_id()).orElse(null);
+
+        if (existingProject==null) {
+
+            Projects newProject = mapToProjectEntity(projectDTO);
+            projectsRepository.save(newProject);
+            return newProject.getProject_id();
+        }
+        else throw new RecordAlreadyExists("This project already exists");
     }
 
     @Override
