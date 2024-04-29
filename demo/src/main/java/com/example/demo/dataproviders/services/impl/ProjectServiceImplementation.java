@@ -89,13 +89,17 @@ public class ProjectServiceImplementation implements ProjectService {
 
             List<Employees> employees = foundProject.getEmployees();
 
-            employees.add(employee);
+            if (!employees.contains(employee)) {
 
-            foundProject.setEmployees(employees);
+                employees.add(employee);
 
-            projectsRepository.save(foundProject);
 
-            return employee.getEmployee_id();
+                foundProject.setEmployees(employees);
+
+                projectsRepository.save(foundProject);
+
+                return employee.getEmployee_id();
+            }else return -1; //exception employee already in project
         }
         else throw new RecordNotFoundException(
                 "Nuk u gjet projekt me kete id");
