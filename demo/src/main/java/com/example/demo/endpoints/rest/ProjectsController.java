@@ -1,6 +1,7 @@
 package com.example.demo.endpoints.rest;
 
 import com.example.demo.dataproviders.dto.ProjectDTO;
+import com.example.demo.dataproviders.dto.ProjectEmployeeDTO;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.entities.Projects;
 import com.example.demo.dataproviders.services.ProjectService;
@@ -42,21 +43,21 @@ public class ProjectsController {
         return ResponseEntity.ok("Projekti me id: "+id+" u krijua");
     }
 
-    @PostMapping("/{projectId}")
-    ResponseEntity<String> addEmployeeToProject( @RequestBody Employees employee,@PathVariable Integer projectId){
-
-        Integer id = projectService.addEmployeeToProject(projectId,employee);
-        return ResponseEntity.ok("Employee me id: "+id+
-                " u shtua ne projektin me id: "+projectId);
-    }
-
-//    @PostMapping("/{projectId}/{employeeId}")
-//    ResponseEntity<String> addEmployeeToProject( @PathVariable Integer projectId,@PathVariable Integer employeeId){
+//    @PostMapping("/{projectId}")
+//    ResponseEntity<String> addEmployeeToProject( @RequestBody Employees employee,@PathVariable Integer projectId){
 //
-//        Integer id = projectService.addEmployeeToProject(projectId,employeeId);
+//        Integer id = projectService.addEmployeeToProject(projectId,employee);
 //        return ResponseEntity.ok("Employee me id: "+id+
 //                " u shtua ne projektin me id: "+projectId);
 //    }
+
+    @PostMapping("/addEmployee")
+    ResponseEntity<String> addEmployeeToProject(@RequestBody ProjectEmployeeDTO projectEmployeeDTO){
+
+        Integer id = projectService.addEmployeeToProject(projectEmployeeDTO.getProjectId(), projectEmployeeDTO.getEmployeeId());
+        return ResponseEntity.ok("Employee me id: "+id+
+                " u shtua ne projektin me id: "+projectEmployeeDTO.getProjectId());
+    }
 
     @PutMapping("/{id}")
     ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO,@PathVariable Integer id){

@@ -18,6 +18,6 @@ public interface ProjectService {
 
     Integer deleteProject(Integer id);
 
-    Integer addEmployeeToProject(Integer projectId, Employees employee);
-//    Integer addEmployeeToProject(Integer projectId, Integer employeeId);
+//    Integer addEmployeeToProject(Integer projectId, Employees employee);
+    Integer addEmployeeToProject(Integer projectId, Integer employeeId);
 }
