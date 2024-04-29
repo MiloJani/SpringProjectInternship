@@ -1,6 +1,7 @@
 package com.example.demo.dataproviders.services.impl;
 
 import com.example.demo.dataproviders.entities.Employees;
+import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.repositories.ProjectsRepository;
 import com.example.demo.dataproviders.services.ProjectService;
 import com.example.demo.dataproviders.dto.ProjectDTO;
@@ -16,9 +17,11 @@ import java.util.Optional;
 public class ProjectServiceImplementation implements ProjectService {
 
     private final ProjectsRepository projectsRepository;
+//    private final EmployeesRepository employeesRepository;
 
-    public ProjectServiceImplementation(ProjectsRepository projectsRepository) {
+    public ProjectServiceImplementation(ProjectsRepository projectsRepository, EmployeesRepository employeesRepository) {
         this.projectsRepository = projectsRepository;
+//        this.employeesRepository = employeesRepository;
     }
 
     @Override
@@ -97,6 +100,32 @@ public class ProjectServiceImplementation implements ProjectService {
         else throw new RecordNotFoundException(
                 "Nuk u gjet projekt me kete id");
     }
+
+//    @Override
+//    public Integer addEmployeeToProject(Integer projectId, Integer employeeId){ //mund te perdoret nje employeeDTO qe ka vtm id
+//
+//        Optional<Projects> project = projectsRepository.findById(projectId);
+//        Optional<Employees> employee = employeesRepository.findById(employeeId);
+//
+//        if (project.isPresent() && employee.isPresent()){
+//
+//            Projects foundProject = project.get();
+//
+//            Employees foundEmployee = employee.get();
+//
+//            List<Employees> employees = foundProject.getEmployees();
+//
+//            employees.add(foundEmployee);
+//
+//            foundProject.setEmployees(employees);
+//
+//            projectsRepository.save(foundProject);
+//
+//            return foundProject.getProject_id();
+//        }
+//        else throw new RecordNotFoundException(
+//                "Nuk u gjet projekt ose employee me kete id");
+//    }
 
     private ProjectDTO mapToProjectDTO(Projects project) {
         Integer id = project.getProject_id();

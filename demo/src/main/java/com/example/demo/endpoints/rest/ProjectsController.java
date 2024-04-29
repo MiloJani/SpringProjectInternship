@@ -50,6 +50,14 @@ public class ProjectsController {
                 " u shtua ne projektin me id: "+projectId);
     }
 
+//    @PostMapping("/{projectId}/{employeeId}")
+//    ResponseEntity<String> addEmployeeToProject( @PathVariable Integer projectId,@PathVariable Integer employeeId){
+//
+//        Integer id = projectService.addEmployeeToProject(projectId,employeeId);
+//        return ResponseEntity.ok("Employee me id: "+id+
+//                " u shtua ne projektin me id: "+projectId);
+//    }
+
     @PutMapping("/{id}")
     ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO,@PathVariable Integer id){
 
