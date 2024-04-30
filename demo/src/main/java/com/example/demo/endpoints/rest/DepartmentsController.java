@@ -69,15 +69,5 @@ public class DepartmentsController {
     }
 
 
-//    @ExceptionHandler(value
-//            = RecordAlreadyExists.class)
-//    @ResponseStatus(HttpStatus.CONFLICT)
-//    public ErrorResponse
-//    handleCustomerAlreadyExistsException(
-//            RecordAlreadyExists ex)
-//    {
-//        return new ErrorResponse(HttpStatus.CONFLICT.value(),
-//                ex.getMessage());
-//    }
 
 }

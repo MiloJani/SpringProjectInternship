@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExists;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.entities.Employees;
@@ -31,6 +32,9 @@ public class DepartmentServiceImplementation implements DepartmentService {
     @Override
     public List<EmployeeDTO> getAllEmployeesFromDepartment(Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
         Optional<Departments> department = departmentsRepository.findById(id);
 
         List<EmployeeDTO> employeeDTOS = new ArrayList<>();
@@ -59,6 +63,10 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
     @Override
     public Integer getTotalEmployeeSalary(Integer id) {
+
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
 
         Optional<Departments> departments = departmentsRepository.findById(id);
 
@@ -93,12 +101,15 @@ public class DepartmentServiceImplementation implements DepartmentService {
             departmentsRepository.save(newDepartment);
             return newDepartment.getDepartment_id();
         }
-        else throw new RecordAlreadyExists("Deaprtment already exists");
+        else throw new RecordAlreadyExists("Department already exists");
     }
 
     @Override
     public Departments updateDepartment(Departments department, Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
         Optional<Departments> departments = departmentsRepository.findById(id);
         if (departments.isPresent()){
 
@@ -115,6 +126,9 @@ public class DepartmentServiceImplementation implements DepartmentService {
     @Override
     public Integer deleteDepartment(Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
         Optional<Departments> departments = departmentsRepository.findById(id);
         if (departments.isPresent()){
             Departments deleteDepartment = departments.get();

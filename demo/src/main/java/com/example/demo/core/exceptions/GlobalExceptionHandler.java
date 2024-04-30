@@ -13,9 +13,8 @@ public class GlobalExceptionHandler {
             = RecordAlreadyExists.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody ErrorResponse
-    handleCustomerAlreadyExistsException(
-            RecordAlreadyExists ex)
-    {
+    handleRecordAlreadyExistsException(
+            RecordAlreadyExists ex) {
         return new ErrorResponse(HttpStatus.CONFLICT.value(),
                 ex.getMessage());
     }
@@ -24,10 +23,17 @@ public class GlobalExceptionHandler {
             = RecordNotFoundException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public @ResponseBody ErrorResponse
-    handleException(RecordNotFoundException ex)
-    {
+    handleRecordDoesNotExistException(RecordNotFoundException ex) {
         return new ErrorResponse(
                 HttpStatus.NOT_FOUND.value(), ex.getMessage());
+    }
+
+    @ExceptionHandler(value
+            = InvalidDataException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ErrorResponse
+    handleInvalidDataException(InvalidDataException ex){
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
     }
 }
 

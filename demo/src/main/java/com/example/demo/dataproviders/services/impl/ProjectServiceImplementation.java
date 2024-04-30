@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExists;
 import com.example.demo.dataproviders.entities.Employees;
 //import com.example.demo.dataproviders.repositories.EmployeesRepository;
@@ -35,6 +36,10 @@ public class ProjectServiceImplementation implements ProjectService {
     @Override
     public Projects getProjectById(Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
+
         Optional<Projects> project = projectsRepository.findById(id);
 
         return project.orElseThrow(() -> new RecordNotFoundException(
@@ -59,6 +64,10 @@ public class ProjectServiceImplementation implements ProjectService {
     @Override
     public ProjectDTO updateProject(ProjectDTO projectDTO, Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
+
         Optional<Projects> projects = projectsRepository.findById(id);
 
         //Psh Duam te bejme update vetem emrin
@@ -74,6 +83,10 @@ public class ProjectServiceImplementation implements ProjectService {
 
     @Override
     public Integer deleteProject(Integer id) {
+
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
 
         Optional<Projects> projects = projectsRepository.findById(id);
 
@@ -114,8 +127,11 @@ public class ProjectServiceImplementation implements ProjectService {
 //    }
 
     @Override
-    public Integer addEmployeeToProject(Integer projectId, Integer employeeId){ //mund te perdoret nje employeeDTO qe ka vtm id
+    public Integer addEmployeeToProject(Integer projectId, Integer employeeId){
 
+        if (projectId<=0 ||employeeId<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
         Optional<Projects> project = projectsRepository.findById(projectId);
         Optional<Employees> employee = employeesRepository.findById(employeeId);
 

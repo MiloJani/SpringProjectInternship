@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExists;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
@@ -31,6 +32,9 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public Employees getEmployeeById(Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
         Optional<Employees> employee = employeesRepository.findById(id);
 
         return employee.orElseThrow(() -> new RecordNotFoundException(
@@ -40,6 +44,10 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public List<ProjectDTO> getAllEmployeeProjects(Integer id) {
+
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
 
         Optional<Employees> employee = employeesRepository.findById(id);
 
@@ -84,6 +92,10 @@ public class EmployeeServiceImplementation implements EmployeeService {
     @Override
     public Employees updateEmployee(Employees employee, Integer id) {
 
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
+
         Optional<Employees> employees = employeesRepository.findById(id);
 
         if (employees.isPresent()){
@@ -98,6 +110,10 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
     @Override
     public Integer deleteEmployee(Integer id) {
+
+        if (id<=0) {
+            throw new InvalidDataException("Id value is not acceptable");
+        }
 
         Optional<Employees> employee = employeesRepository.findById(id);
 

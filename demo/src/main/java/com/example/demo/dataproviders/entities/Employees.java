@@ -1,5 +1,7 @@
 package com.example.demo.dataproviders.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -33,7 +35,8 @@ public class Employees {
 
     private int salary;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonBackReference
     @JoinColumn(name = "department_id")
     private Departments department;
 
