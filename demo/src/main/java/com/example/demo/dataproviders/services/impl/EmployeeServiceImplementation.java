@@ -30,7 +30,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public Employees getEmployeeById(Integer id) {
+    public Employees getEmployeeById(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -43,7 +43,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public List<ProjectDTO> getAllEmployeeProjects(Integer id) {
+    public List<ProjectDTO> getAllEmployeeProjects(Integer id) throws InvalidDataException,RecordNotFoundException{
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -70,13 +70,13 @@ public class EmployeeServiceImplementation implements EmployeeService {
             }
 
         }
-        else throw new RuntimeException("Nuk u gjet employee me kete id");
+        else throw new RecordNotFoundException("Nuk u gjet employee me kete id");
 
         return projectDTOS;
     }
 
     @Override
-    public Integer createEmployee(Employees employee) {
+    public Integer createEmployee(Employees employee) throws RecordAlreadyExists {
 
         Employees existingEmployee = employeesRepository
                 .findById(employee.getEmployee_id()).orElse(null);
@@ -90,7 +90,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public Employees updateEmployee(Employees employee, Integer id) {
+    public Employees updateEmployee(Employees employee, Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -100,6 +100,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
 
         if (employees.isPresent()){
 
+//            if (employee.getFirst_name()==null) throw new InvalidDataException("First name is required");
             Employees updateEmployee = employees.get();
             updateEmployee.setSalary(employee.getSalary());
             employeesRepository.save(updateEmployee);
@@ -109,7 +110,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public Integer deleteEmployee(Integer id) {
+    public Integer deleteEmployee(Integer id) throws InvalidDataException,RecordNotFoundException{
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");

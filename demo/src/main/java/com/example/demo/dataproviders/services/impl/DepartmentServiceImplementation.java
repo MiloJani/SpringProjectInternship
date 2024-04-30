@@ -30,7 +30,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public List<EmployeeDTO> getAllEmployeesFromDepartment(Integer id) {
+    public List<EmployeeDTO> getAllEmployeesFromDepartment(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -62,7 +62,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public Integer getTotalEmployeeSalary(Integer id) {
+    public Integer getTotalEmployeeSalary(Integer id) throws InvalidDataException,RecordNotFoundException{
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -90,7 +90,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public Integer addDepartment(Departments department) {
+    public Integer addDepartment(Departments department) throws RecordAlreadyExists{
 
         Departments existingDepartment = departmentsRepository
                 .findById(department.getDepartment_id()).orElse(null);
@@ -105,7 +105,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public Departments updateDepartment(Departments department, Integer id) {
+    public Departments updateDepartment(Departments department, Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -124,7 +124,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public Integer deleteDepartment(Integer id) {
+    public Integer deleteDepartment(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");

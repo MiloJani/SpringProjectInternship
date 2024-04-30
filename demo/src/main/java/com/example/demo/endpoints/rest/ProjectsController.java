@@ -1,5 +1,8 @@
 package com.example.demo.endpoints.rest;
 
+import com.example.demo.core.exceptions.InvalidDataException;
+import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.ProjectDTO;
 import com.example.demo.dataproviders.dto.ProjectEmployeeDTO;
 import com.example.demo.dataproviders.entities.Employees;
@@ -29,7 +32,7 @@ public class ProjectsController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Projects> getProjectById(@PathVariable Integer id){
+    ResponseEntity<Projects> getProjectById(@PathVariable Integer id) throws InvalidDataException, RecordNotFoundException {
 
         Projects project = projectService.getProjectById(id);
 
@@ -37,7 +40,7 @@ public class ProjectsController {
     }
 
     @PostMapping
-    ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO){
+    ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) throws RecordAlreadyExists {
 
         Integer id = projectService.createProject(projectDTO);
         return ResponseEntity.ok("Projekti me id: "+id+" u krijua");
@@ -52,7 +55,7 @@ public class ProjectsController {
 //    }
 
     @PostMapping("/addEmployee")
-    ResponseEntity<String> addEmployeeToProject(@RequestBody ProjectEmployeeDTO projectEmployeeDTO){
+    ResponseEntity<String> addEmployeeToProject(@RequestBody ProjectEmployeeDTO projectEmployeeDTO) throws InvalidDataException,RecordNotFoundException{
 
         Integer id = projectService.addEmployeeToProject(projectEmployeeDTO.getProjectId(), projectEmployeeDTO.getEmployeeId());
         return ResponseEntity.ok("Employee me id: "+id+
@@ -60,14 +63,14 @@ public class ProjectsController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO,@PathVariable Integer id){
+    ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDTO,@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         ProjectDTO updatedProject = projectService.updateProject(projectDTO,id);
         return ResponseEntity.ok(updatedProject);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteProject(@PathVariable Integer id){
+    ResponseEntity<String> deleteProject(@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Integer projectId = projectService.deleteProject(id);
 

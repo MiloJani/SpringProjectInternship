@@ -1,7 +1,9 @@
 package com.example.demo.endpoints.rest;
 
 import com.example.demo.core.exceptions.ErrorResponse;
+import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.services.DepartmentService;
@@ -30,7 +32,7 @@ public class DepartmentsController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<List<EmployeeDTO>> getAllEmployeesFromDepartment(@PathVariable Integer id){
+    ResponseEntity<List<EmployeeDTO>> getAllEmployeesFromDepartment(@PathVariable Integer id) throws InvalidDataException, RecordNotFoundException {
 
         List<EmployeeDTO> employees = departmentService.getAllEmployeesFromDepartment(id);
 
@@ -38,7 +40,7 @@ public class DepartmentsController {
     }
 
     @GetMapping("/salary/{id}")
-    ResponseEntity<String> getTotalEmployeeSalary(@PathVariable Integer id){
+    ResponseEntity<String> getTotalEmployeeSalary(@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Integer sum = departmentService.getTotalEmployeeSalary(id);
 
@@ -46,7 +48,7 @@ public class DepartmentsController {
     }
 
     @PostMapping
-    ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) {
+    ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) throws RecordAlreadyExists {
 
         Integer id = departmentService.addDepartment(department);
         return ResponseEntity.ok("Departmenti me id:"+id+" u krijua");
@@ -54,7 +56,7 @@ public class DepartmentsController {
 
     @PutMapping("/{id}")
     ResponseEntity<Departments> updateDepartment(@RequestBody Departments department,
-                                                 @PathVariable Integer id){
+                                                 @PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Departments updatedDepartment = departmentService.updateDepartment(department,id);
         return ResponseEntity.ok(updatedDepartment);
@@ -62,7 +64,7 @@ public class DepartmentsController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteDepartment(@PathVariable Integer id){
+    ResponseEntity<String> deleteDepartment(@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Integer departmentId = departmentService.deleteDepartment(id);
         return ResponseEntity.ok("Departamenti me id:"+departmentId+" u fshi");

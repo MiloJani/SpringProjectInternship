@@ -1,5 +1,8 @@
 package com.example.demo.endpoints.rest;
 
+import com.example.demo.core.exceptions.InvalidDataException;
+import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.ProjectDTO;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.services.EmployeeService;
@@ -28,7 +31,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Employees> getEmployeeById(@PathVariable Integer id){
+    ResponseEntity<Employees> getEmployeeById(@PathVariable Integer id) throws InvalidDataException, RecordNotFoundException {
 
         Employees employee = employeeService.getEmployeeById(id);
 
@@ -36,7 +39,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/projects/{id}")
-    ResponseEntity<List<ProjectDTO>> getAllEmployeesProject(@PathVariable Integer id){
+    ResponseEntity<List<ProjectDTO>> getAllEmployeesProject(@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         List<ProjectDTO> projects = employeeService.getAllEmployeeProjects(id);
 
@@ -44,7 +47,7 @@ public class EmployeeController {
 
     }
     @PostMapping
-    ResponseEntity<String> createEmployee(@RequestBody Employees employee){
+    ResponseEntity<String> createEmployee(@RequestBody Employees employee) throws RecordAlreadyExists {
 
         Integer id = employeeService.createEmployee(employee);
 
@@ -52,7 +55,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Employees> updateEmployee(@RequestBody Employees employee,@PathVariable Integer id){
+    ResponseEntity<Employees> updateEmployee(@RequestBody Employees employee,@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Employees updatedEmployee = employeeService.updateEmployee(employee,id);
 
@@ -60,7 +63,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<String> deleteEmployee(@PathVariable Integer id){
+    ResponseEntity<String> deleteEmployee(@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Integer employeeId = employeeService.deleteEmployee(id);
 

@@ -34,7 +34,7 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public Projects getProjectById(Integer id) {
+    public Projects getProjectById(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -48,7 +48,7 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public Integer createProject(ProjectDTO projectDTO) {
+    public Integer createProject(ProjectDTO projectDTO) throws RecordAlreadyExists{
 
         Projects existingProject = projectsRepository.findById(projectDTO.getProject_id()).orElse(null);
 
@@ -62,7 +62,7 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public ProjectDTO updateProject(ProjectDTO projectDTO, Integer id) {
+    public ProjectDTO updateProject(ProjectDTO projectDTO, Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -82,7 +82,7 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public Integer deleteProject(Integer id) {
+    public Integer deleteProject(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -127,7 +127,7 @@ public class ProjectServiceImplementation implements ProjectService {
 //    }
 
     @Override
-    public Integer addEmployeeToProject(Integer projectId, Integer employeeId){
+    public Integer addEmployeeToProject(Integer projectId, Integer employeeId) throws InvalidDataException,RecordNotFoundException{
 
         if (projectId<=0 ||employeeId<=0) {
             throw new InvalidDataException("Id value is not acceptable");
