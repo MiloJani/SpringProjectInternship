@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value
-            = RecordAlreadyExists.class)
+            = RecordAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public @ResponseBody ErrorResponse
     handleRecordAlreadyExistsException(
-            RecordAlreadyExists ex) {
+            RecordAlreadyExistsException ex) {
         return new ErrorResponse(HttpStatus.CONFLICT.value(),
                 ex.getMessage());
     }

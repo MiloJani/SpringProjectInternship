@@ -1,7 +1,7 @@
 package com.example.demo.dataproviders.services.impl;
 
 import com.example.demo.core.exceptions.InvalidDataException;
-import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.services.EmployeeService;
@@ -76,7 +76,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public Integer createEmployee(Employees employee) throws RecordAlreadyExists {
+    public Integer createEmployee(Employees employee) throws RecordAlreadyExistsException {
 
         Employees existingEmployee = employeesRepository
                 .findById(employee.getEmployee_id()).orElse(null);
@@ -86,7 +86,7 @@ public class EmployeeServiceImplementation implements EmployeeService {
             employeesRepository.save(createEmployee);
             return createEmployee.getEmployee_id();
         }
-        else throw new RecordAlreadyExists("This employee exists");
+        else throw new RecordAlreadyExistsException("This employee exists");
     }
 
     @Override

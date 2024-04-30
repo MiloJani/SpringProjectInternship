@@ -1,7 +1,7 @@
 package com.example.demo.dataproviders.services.impl;
 
 import com.example.demo.core.exceptions.InvalidDataException;
-import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.dataproviders.entities.Employees;
 //import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
@@ -48,7 +48,7 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public Integer createProject(ProjectDTO projectDTO) throws RecordAlreadyExists{
+    public Integer createProject(ProjectDTO projectDTO) throws RecordAlreadyExistsException {
 
         Projects existingProject = projectsRepository.findById(projectDTO.getProject_id()).orElse(null);
 
@@ -58,7 +58,7 @@ public class ProjectServiceImplementation implements ProjectService {
             projectsRepository.save(newProject);
             return newProject.getProject_id();
         }
-        else throw new RecordAlreadyExists("This project already exists");
+        else throw new RecordAlreadyExistsException("This project already exists");
     }
 
     @Override

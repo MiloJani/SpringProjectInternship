@@ -1,11 +1,10 @@
 package com.example.demo.endpoints.rest;
 
 import com.example.demo.core.exceptions.InvalidDataException;
-import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.ProjectDTO;
 import com.example.demo.dataproviders.dto.ProjectEmployeeDTO;
-import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.entities.Projects;
 import com.example.demo.dataproviders.services.ProjectService;
 import org.springframework.http.HttpStatus;
@@ -40,7 +39,7 @@ public class ProjectsController {
     }
 
     @PostMapping
-    ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) throws RecordAlreadyExists {
+    ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) throws RecordAlreadyExistsException {
 
         Integer id = projectService.createProject(projectDTO);
         return ResponseEntity.ok("Projekti me id: "+id+" u krijua");

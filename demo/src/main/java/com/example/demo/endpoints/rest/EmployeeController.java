@@ -1,7 +1,7 @@
 package com.example.demo.endpoints.rest;
 
 import com.example.demo.core.exceptions.InvalidDataException;
-import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.ProjectDTO;
 import com.example.demo.dataproviders.entities.Employees;
@@ -47,7 +47,7 @@ public class EmployeeController {
 
     }
     @PostMapping
-    ResponseEntity<String> createEmployee(@RequestBody Employees employee) throws RecordAlreadyExists {
+    ResponseEntity<String> createEmployee(@RequestBody Employees employee) throws RecordAlreadyExistsException {
 
         Integer id = employeeService.createEmployee(employee);
 

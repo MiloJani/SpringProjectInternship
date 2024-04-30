@@ -33,6 +33,7 @@ public class Employees {
     @Column(name = "job_title", length = 100, nullable = false)
     private String job_title;
 
+    @Column(columnDefinition = "int default 5_000")
     private int salary;
 
     @ManyToOne(fetch = FetchType.LAZY)

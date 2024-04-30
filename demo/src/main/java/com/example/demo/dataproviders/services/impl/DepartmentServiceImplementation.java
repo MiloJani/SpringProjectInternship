@@ -1,7 +1,7 @@
 package com.example.demo.dataproviders.services.impl;
 
 import com.example.demo.core.exceptions.InvalidDataException;
-import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.DepartmentsRepository;
@@ -90,7 +90,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public Integer addDepartment(Departments department) throws RecordAlreadyExists{
+    public Integer addDepartment(Departments department) throws RecordAlreadyExistsException {
 
         Departments existingDepartment = departmentsRepository
                 .findById(department.getDepartment_id()).orElse(null);
@@ -101,7 +101,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
             departmentsRepository.save(newDepartment);
             return newDepartment.getDepartment_id();
         }
-        else throw new RecordAlreadyExists("Department already exists");
+        else throw new RecordAlreadyExistsException("Department already exists");
     }
 
     @Override

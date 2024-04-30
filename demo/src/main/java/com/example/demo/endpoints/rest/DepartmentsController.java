@@ -1,8 +1,7 @@
 package com.example.demo.endpoints.rest;
 
-import com.example.demo.core.exceptions.ErrorResponse;
 import com.example.demo.core.exceptions.InvalidDataException;
-import com.example.demo.core.exceptions.RecordAlreadyExists;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
@@ -48,7 +47,7 @@ public class DepartmentsController {
     }
 
     @PostMapping
-    ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) throws RecordAlreadyExists {
+    ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) throws RecordAlreadyExistsException {
 
         Integer id = departmentService.addDepartment(department);
         return ResponseEntity.ok("Departmenti me id:"+id+" u krijua");
