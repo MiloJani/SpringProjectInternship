@@ -1,5 +1,6 @@
 package com.example.demo.endpoints.rest;
 
+import com.example.demo.core.exceptions.EmployeeIsAlreadyInProject;
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.core.exceptions.RecordNotFoundException;
@@ -54,7 +55,7 @@ public class ProjectsController {
 //    }
 
     @PostMapping("/addEmployee")
-    ResponseEntity<String> addEmployeeToProject(@RequestBody ProjectEmployeeDTO projectEmployeeDTO) throws InvalidDataException,RecordNotFoundException{
+    ResponseEntity<String> addEmployeeToProject(@RequestBody ProjectEmployeeDTO projectEmployeeDTO) throws InvalidDataException,RecordNotFoundException, EmployeeIsAlreadyInProject {
 
         Integer id = projectService.addEmployeeToProject(projectEmployeeDTO.getProjectId(), projectEmployeeDTO.getEmployeeId());
         return ResponseEntity.ok("Employee me id: "+id+

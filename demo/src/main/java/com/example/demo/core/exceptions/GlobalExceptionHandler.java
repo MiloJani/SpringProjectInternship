@@ -35,5 +35,13 @@ public class GlobalExceptionHandler {
     handleInvalidDataException(InvalidDataException ex){
         return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
     }
+
+    @ExceptionHandler(value
+            = EmployeeIsAlreadyInProject.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ErrorResponse
+    handleEmployeeIsAlreadyInProject(EmployeeIsAlreadyInProject ex){
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+    }
 }
 

@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.EmployeeIsAlreadyInProject;
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.dataproviders.entities.Employees;
@@ -127,7 +128,7 @@ public class ProjectServiceImplementation implements ProjectService {
 //    }
 
     @Override
-    public Integer addEmployeeToProject(Integer projectId, Integer employeeId) throws InvalidDataException,RecordNotFoundException{
+    public Integer addEmployeeToProject(Integer projectId, Integer employeeId) throws InvalidDataException,RecordNotFoundException,EmployeeIsAlreadyInProject{
 
         if (projectId<=0 ||employeeId<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -143,6 +144,7 @@ public class ProjectServiceImplementation implements ProjectService {
 
             List<Employees> employees = foundProject.getEmployees();
 
+            if(!employees.contains(foundEmployee)){
             employees.add(foundEmployee);
 
             foundProject.setEmployees(employees);
@@ -150,6 +152,10 @@ public class ProjectServiceImplementation implements ProjectService {
             projectsRepository.save(foundProject);
 
             return foundProject.getProject_id();
+            }
+            else {
+                throw new EmployeeIsAlreadyInProject("Ky employee eshte ne kete projekt ");
+            }
         }
         else throw new RecordNotFoundException(
                 "Nuk u gjet projekt ose employee me kete id");
