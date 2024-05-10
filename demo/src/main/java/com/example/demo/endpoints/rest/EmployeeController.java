@@ -3,7 +3,7 @@ package com.example.demo.endpoints.rest;
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.core.exceptions.RecordNotFoundException;
-import com.example.demo.dataproviders.dto.ProjectDTO;
+import com.example.demo.dataproviders.dto.request.ProjectDTO;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.services.EmployeeService;
 import org.springframework.http.HttpStatus;

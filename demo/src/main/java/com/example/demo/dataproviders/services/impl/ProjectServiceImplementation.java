@@ -8,7 +8,7 @@ import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.repositories.ProjectsRepository;
 import com.example.demo.dataproviders.services.ProjectService;
-import com.example.demo.dataproviders.dto.ProjectDTO;
+import com.example.demo.dataproviders.dto.request.ProjectDTO;
 import com.example.demo.dataproviders.entities.Projects;
 import com.example.demo.core.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;

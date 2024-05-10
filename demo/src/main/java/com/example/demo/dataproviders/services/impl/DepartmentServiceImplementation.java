@@ -6,7 +6,7 @@ import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.DepartmentsRepository;
 import com.example.demo.dataproviders.services.DepartmentService;
-import com.example.demo.dataproviders.dto.EmployeeDTO;
+import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.core.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 

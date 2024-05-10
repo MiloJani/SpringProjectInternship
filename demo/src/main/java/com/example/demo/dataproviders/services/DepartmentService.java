@@ -1,6 +1,6 @@
 package com.example.demo.dataproviders.services;
 
-import com.example.demo.dataproviders.dto.EmployeeDTO;
+import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
 
 import java.util.List;

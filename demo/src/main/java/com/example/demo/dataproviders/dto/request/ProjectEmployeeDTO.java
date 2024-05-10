@@ -1,4 +1,4 @@
-package com.example.demo.dataproviders.dto;
+package com.example.demo.dataproviders.dto.request;
 
 import lombok.*;
 

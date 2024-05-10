@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Employees {
+public class Employees{
 
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO,TABLE,IDENTITY,SEQUENCE
@@ -45,4 +45,6 @@ public class Employees {
     @ManyToMany(mappedBy = "employees")
     @JsonIgnore
     private List<Projects> projects;
+
+
 }
