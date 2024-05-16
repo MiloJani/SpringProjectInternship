@@ -2,6 +2,7 @@ package com.example.demo.dataproviders.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -21,20 +22,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer userId;
 
     private String firstname;
     private String lastname;
     private String email;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
+    private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        this.roles.forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getRoleName())));
+        return grantedAuthorities;
+//        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
