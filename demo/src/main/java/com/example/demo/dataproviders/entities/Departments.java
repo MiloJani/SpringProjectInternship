@@ -19,6 +19,7 @@ import java.util.List;
 public class Departments {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer department_id;
 
     private String department_name;

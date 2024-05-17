@@ -38,12 +38,12 @@ public class Employees{
 
     @ManyToOne(fetch = FetchType.LAZY)
 //    @JsonBackReference
-    @JsonIgnore
+//    @JsonIgnore
     @JoinColumn(name = "department_id")
     private Departments department;
 
     @ManyToMany(mappedBy = "employees")
-    @JsonIgnore
+//    @JsonIgnore
     private List<Projects> projects;
 
 

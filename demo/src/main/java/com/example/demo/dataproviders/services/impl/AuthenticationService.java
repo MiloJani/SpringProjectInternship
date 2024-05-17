@@ -7,6 +7,7 @@ import com.example.demo.dataproviders.entities.Role;
 import com.example.demo.dataproviders.entities.User;
 import com.example.demo.dataproviders.repositories.RoleRepository;
 import com.example.demo.dataproviders.repositories.UserRepository;
+import com.example.demo.dataproviders.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,13 +21,16 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthenticationService {
+public class AuthenticationService implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
+
+
+    @Override
     public AuthenticationResponse register(RegisterRequest request){
         var user = User.builder()
                 .firstname(request.getFirstname())
@@ -52,6 +56,7 @@ public class AuthenticationService {
                 .build();
     }
 
+    @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication authentication =authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

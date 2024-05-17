@@ -20,8 +20,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roleId;
 
-    @Enumerated(EnumType.STRING)
-    private RoleName roleName;
+
+    private String roleName;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -31,8 +31,6 @@ public class Role {
     )
     private List<User> users;
 
-    public String getRoleName(){
-        return roleName.name();
-    }
+
 
 }

@@ -37,7 +37,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userEmail;
         final String jwt;
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
-            System.out.println("No JWT token found in request headers");
             filterChain.doFilter(request,response);
             return;
         }
@@ -57,12 +56,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authToken);
                 System.out.println("User successfully authenticated: " + userEmail);
-            }else {
-                System.out.println("Invalid JWT token provided for user: " + userEmail);
             }
 
-        }else {
-            System.out.println("Unable to extract user email from JWT token");
         }
         filterChain.doFilter(request,response);
 
