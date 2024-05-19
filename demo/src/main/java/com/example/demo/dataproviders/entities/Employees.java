@@ -1,6 +1,5 @@
 package com.example.demo.dataproviders.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -8,8 +7,6 @@ import lombok.*;
 
 import java.util.List;
 
-//@Data -getter,setter,requiredconstructor,toString,hashcode
-//@Builder -no need for new -> ClassName.builder()
 @Entity
 @Getter
 @Setter
@@ -21,9 +18,7 @@ public class Employees{
     //@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO,TABLE,IDENTITY,SEQUENCE
     private Integer employee_id;
 
-    //default:length-255,nullable-true,unique-false
-    //updatable,insertable
-    @Column(name="first_name", length=20, nullable=false, unique=false)
+    @Column(name="first_name", length=20, nullable=false)
     @NotBlank(message = "Field is required")
     private String first_name;
 

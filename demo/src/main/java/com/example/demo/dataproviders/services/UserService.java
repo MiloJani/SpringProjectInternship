@@ -3,7 +3,6 @@ package com.example.demo.dataproviders.services;
 import com.example.demo.dataproviders.dto.request.AuthenticationRequest;
 import com.example.demo.dataproviders.dto.request.RegisterRequest;
 import com.example.demo.dataproviders.dto.response.AuthenticationResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

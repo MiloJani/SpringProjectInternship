@@ -31,6 +31,8 @@ public class Role {
     )
     private List<User> users;
 
+    //oneToMany
+
 
 
 }
