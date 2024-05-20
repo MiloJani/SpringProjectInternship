@@ -1,5 +1,8 @@
 package com.example.demo.dataproviders.services.impl;
 
+import com.example.demo.core.exceptions.AuthenticationFailedException;
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.request.AuthenticationRequest;
 import com.example.demo.dataproviders.dto.request.RegisterRequest;
 import com.example.demo.dataproviders.dto.response.AuthenticationResponse;
@@ -31,7 +34,11 @@ public class AuthenticationService implements UserService {
 
 
     @Override
-    public AuthenticationResponse register(RegisterRequest request){
+    public AuthenticationResponse register(RegisterRequest request) throws RecordAlreadyExistsException,RecordNotFoundException{
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RecordAlreadyExistsException("User with email " + request.getEmail() + " already exists");
+        }
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -42,7 +49,7 @@ public class AuthenticationService implements UserService {
 
         List<Role> roles = new ArrayList<>();
         request.getRoles().forEach(r -> {
-            Role role = roleRepository.findById(r.getRoleId()).orElseThrow(() -> new IllegalArgumentException("Role not found with ID: " + r.getRoleId()));
+            Role role = roleRepository.findById(r.getRoleId()).orElseThrow(() -> new RecordNotFoundException("Role not found"));
             roles.add(role);
             role.getUsers().add(user);
         });
@@ -58,21 +65,24 @@ public class AuthenticationService implements UserService {
 
     @Override
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        Authentication authentication =authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        List<String> roleNames = new ArrayList<>();
-        user.getRoles().forEach(r -> roleNames.add(r.getRoleName()));
-        System.out.println(roleNames);
-        System.out.println(user);
-        var jwtToken = jwtService.generateToken(roleNames,user);
-        return  AuthenticationResponse.builder()
-                .token(jwtToken)
-                .build();
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            var user = userRepository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new AuthenticationFailedException("User not found with this email:"+request.getEmail()));
+            List<String> roleNames = new ArrayList<>();
+            user.getRoles().forEach(r -> roleNames.add(r.getRoleName()));
+            var jwtToken = jwtService.generateToken(roleNames, user);
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build();
+        }catch (Exception e) {
+            throw new AuthenticationFailedException("Authentication failed for user: " + request.getEmail());
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.demo.endpoints.rest;
 
+import com.example.demo.core.exceptions.RecordAlreadyExistsException;
+import com.example.demo.core.exceptions.RecordNotFoundException;
 import com.example.demo.dataproviders.dto.request.AuthenticationRequest;
 import com.example.demo.dataproviders.dto.request.RegisterRequest;
 import com.example.demo.dataproviders.dto.response.AuthenticationResponse;
@@ -20,7 +22,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
-    ){
+    ) throws RecordAlreadyExistsException, RecordNotFoundException {
         return ResponseEntity.ok(userService.register(request));
     }
 

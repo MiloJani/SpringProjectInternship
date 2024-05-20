@@ -43,5 +43,13 @@ public class GlobalExceptionHandler {
     handleEmployeeIsAlreadyInProject(EmployeeIsAlreadyInProject ex){
         return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
     }
+
+    @ExceptionHandler(value
+            = AuthenticationFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public @ResponseBody ErrorResponse
+    handleAuthenticationFailed(AuthenticationFailedException ex){
+        return new ErrorResponse(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+    }
 }
 
