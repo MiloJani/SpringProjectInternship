@@ -15,7 +15,7 @@ import java.util.List;
 public class Employees{
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY) //AUTO,TABLE,IDENTITY,SEQUENCE
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer employee_id;
 
     @Column(name="first_name", length=20, nullable=false)
