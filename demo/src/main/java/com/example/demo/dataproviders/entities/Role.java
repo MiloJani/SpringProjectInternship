@@ -31,7 +31,13 @@ public class Role {
     )
     private List<User> users;
 
-    //oneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "role_permissions",
+            joinColumns = @JoinColumn(name = "roleId"),
+            inverseJoinColumns = @JoinColumn(name = "permissionId")
+    )
+    private List<Permissions> permissions;
 
 
 

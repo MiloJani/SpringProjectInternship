@@ -5,5 +5,6 @@
 <!--    <include file="classpath:/db/changelog/buildTables.sql" relativeToChangelogFile="false" />-->
 <!--<include file="classpath:/db/changelog/changelog_v1.xml"/>-->
 <!--<include file="classpath:/db/changelog/changelog_v2.xml"/>-->
+    <!--<include file="classpath:/db/changelog/changelog_v3.xml"/>-->
 <!--    <includeAll path="src/main/resources/db/changelog/" />-->
 </databaseChangeLog>

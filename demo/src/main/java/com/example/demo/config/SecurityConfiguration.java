@@ -19,27 +19,29 @@ public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf((httpSecurityCsrfConfigurer)->httpSecurityCsrfConfigurer.disable())
-                .authorizeHttpRequests(
-                        auth -> auth
-                                .requestMatchers(GET,"api/departments/**","api/projects/**","api/employees/**").hasAnyAuthority("ADMIN","USER")
-                                .requestMatchers(POST,"api/departments/**","api/projects/**","api/employees/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers(PUT,"api/departments/**","api/projects/**","api/employees/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers(DELETE,"api/departments/**","api/projects/**","api/employees/**").hasAnyAuthority("ADMIN")
-                                .requestMatchers("api/roles").hasAuthority("ADMIN")
-                                .requestMatchers("/swagger-ui.html").permitAll()
-                                .requestMatchers("/swagger-ui/**").permitAll()
-                                .requestMatchers("/api-docs/**").permitAll()
-                                .requestMatchers("api/v1/**").permitAll().anyRequest().authenticated())
-                .sessionManagement(sesion->sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf((httpSecurityCsrfConfigurer) -> httpSecurityCsrfConfigurer.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(GET, "api/departments/**", "api/projects/**", "api/employees/**").hasAnyAuthority("ADMIN_READ", "USER_READ")
+                        .requestMatchers(POST, "api/departments/**", "api/projects/**", "api/employees/**").hasAuthority("ADMIN_CREATE")
+                        .requestMatchers(PUT, "api/departments/**", "api/projects/**", "api/employees/**").hasAuthority("ADMIN_UPDATE")
+                        .requestMatchers(DELETE, "api/departments/**", "api/projects/**", "api/employees/**").hasAuthority("ADMIN_DELETE")
+                        .requestMatchers("api/roles").hasAuthority("ADMIN_MANAGE")
+                        .requestMatchers("api/permissions").hasAuthority("ADMIN_MANAGE")
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/api-docs/**").permitAll()
+                        .requestMatchers("api/v1/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 }

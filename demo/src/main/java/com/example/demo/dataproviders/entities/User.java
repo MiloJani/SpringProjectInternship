@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,13 +35,20 @@ public class User implements UserDetails {
     @ManyToMany(mappedBy = "users",fetch = FetchType.EAGER)
     private List<Role> roles;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        this.roles.forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getRoleName())));
-        return grantedAuthorities;
-//        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+//        this.roles.forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getRoleName())));
+//        return grantedAuthorities;
+////        return List.of(new SimpleGrantedAuthority(role.name()));
+//    }
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+    return roles.stream()
+            .flatMap(role -> role.getPermissions().stream())
+            .map(permission -> new SimpleGrantedAuthority(permission.getPermissionName()))
+            .collect(Collectors.toList());
+}
 
     @Override
     public String getPassword() {

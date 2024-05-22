@@ -49,7 +49,7 @@ public class RoleServiceImplementation implements RoleService {
         if (role1.isPresent()){
 
             Role updateRole= role1.get();
-            updateRole.setRoleName(updateRole.getRoleName());
+            updateRole.setRoleName(role.getRoleName());
             roleRepository.save(updateRole);
             return updateRole;
         }

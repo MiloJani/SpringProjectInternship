@@ -42,7 +42,7 @@ public class RoleController {
         return ResponseEntity.ok(role1);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     ResponseEntity<String> deleteRole(@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
         Integer roleId=roleService.deleteRole(id);

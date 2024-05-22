@@ -1,0 +1,185 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!-- Table: Departments -->
+    <changeSet author="your_name" id="create-table-Departments">
+        <!--your_name is a reference to an anime movie with the same name lol (: -->
+        <createTable tableName="Departments">
+            <column name="department_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="department_name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: Employees -->
+    <changeSet author="your_name" id="create-table-Employees">
+        <createTable tableName="Employees">
+            <column name="employee_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(255)"/>
+            <column name="last_name" type="varchar(255)"/>
+            <column name="job_title" type="varchar(255)"/>
+            <column name="salary" type="double"/>
+            <column name="department_id" type="integer">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: Projects -->
+    <changeSet author="your_name" id="create-table-Projects">
+        <createTable tableName="Projects">
+            <column name="project_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="project_name" type="varchar(255)"/>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: Employee_Projects -->
+    <changeSet author="your_name" id="create-table-Employee_Projects">
+        <createTable tableName="Employee_Projects">
+            <column name="employee_id" type="integer">
+                <constraints/>
+            </column>
+            <column name="project_id" type="integer">
+                <constraints/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Foreign Key Constraints -->
+    <changeSet author="your_name" id="add-foreign-keys">
+        <!-- ForeignKeyConstraint for Employees.department_id -->
+        <addForeignKeyConstraint
+                baseColumnNames="department_id"
+                baseTableName="Employees"
+                constraintName="fk_employees_departments"
+                referencedColumnNames="department_id"
+                referencedTableName="Departments"
+                validate="true"/>
+
+        <!-- ForeignKeyConstraint for Employee_Projects.employee_id -->
+        <addForeignKeyConstraint
+                baseColumnNames="employee_id"
+                baseTableName="Employee_Projects"
+                constraintName="fk_employee_projects_employees"
+                referencedColumnNames="employee_id"
+                referencedTableName="Employees"
+                validate="true"/>
+
+        <!-- ForeignKeyConstraint for Employee_Projects.project_id -->
+        <addForeignKeyConstraint
+                baseColumnNames="project_id"
+                baseTableName="Employee_Projects"
+                constraintName="fk_employee_projects_projects"
+                referencedColumnNames="project_id"
+                referencedTableName="Projects"
+                validate="true"/>
+    </changeSet>
+
+    <!-- Table: User -->
+    <changeSet author="your_name" id="create-table-User">
+        <createTable tableName="_user">
+            <column name="user_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="firstname" type="varchar(255)"/>
+            <column name="lastname" type="varchar(255)"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="password" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: Role -->
+    <changeSet author="your_name" id="create-table-Role">
+        <createTable tableName="role">
+            <column name="role_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="role_name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: Permissions -->
+    <changeSet author="your_name" id="create-table-Permissions">
+        <createTable tableName="permission">
+            <column name="permission_id" type="integer" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="permission_name" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: User_Roles -->
+    <changeSet author="your_name" id="create-table-User_Roles">
+        <createTable tableName="user_roles">
+            <column name="user_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Table: Role_Permissions -->
+    <changeSet author="your_name" id="create-table-Role_Permissions">
+        <createTable tableName="role_permissions">
+            <column name="role_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+            <column name="permission_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Foreign Key Constraints for User_Roles -->
+    <changeSet author="your_name" id="add-foreign-keys-user-roles">
+        <addForeignKeyConstraint
+                baseColumnNames="user_id"
+                baseTableName="user_roles"
+                constraintName="fk_user_roles_user"
+                referencedColumnNames="user_id"
+                referencedTableName="_user"
+                validate="true"/>
+
+        <addForeignKeyConstraint
+                baseColumnNames="role_id"
+                baseTableName="user_roles"
+                constraintName="fk_user_roles_role"
+                referencedColumnNames="role_id"
+                referencedTableName="role"
+                validate="true"/>
+    </changeSet>
+
+    <!-- Foreign Key Constraints for Role_Permissions -->
+    <changeSet author="your_name" id="add-foreign-keys-role-permissions">
+        <addForeignKeyConstraint
+                baseColumnNames="role_id"
+                baseTableName="role_permissions"
+                constraintName="fk_role_permissions_role"
+                referencedColumnNames="role_id"
+                referencedTableName="role"
+                validate="true"/>
+
+        <addForeignKeyConstraint
+                baseColumnNames="permission_id"
+                baseTableName="role_permissions"
+                constraintName="fk_role_permissions_permission"
+                referencedColumnNames="permission_id"
+                referencedTableName="permission"
+                validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>

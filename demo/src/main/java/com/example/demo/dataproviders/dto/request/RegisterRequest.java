@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.dto.request;
 
+import com.example.demo.dataproviders.entities.Permissions;
 import com.example.demo.dataproviders.entities.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +19,5 @@ public class RegisterRequest {
     private String lastname;
     private String email;
     private String password;
-    private List<Role> roles;
+    private List<RoleDTO> roles;
 }
