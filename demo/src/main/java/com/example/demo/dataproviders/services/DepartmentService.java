@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services;
 
+import com.example.demo.dataproviders.dto.request.DepartmentDTO;
 import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
 
@@ -9,13 +10,15 @@ public interface DepartmentService {
 
     List<Departments> getAllDepartments();
 
+    DepartmentDTO getDepartmentById(Integer id);
+
     List<EmployeeDTO> getAllEmployeesFromDepartment(Integer id);
 
     Integer getTotalEmployeeSalary(Integer id);
 
-    Integer addDepartment(Departments department);
+    DepartmentDTO addDepartment(Departments department);
 
-    Departments updateDepartment(Departments department, Integer id);
+    DepartmentDTO updateDepartment(Departments department, Integer id);
 
     Integer deleteDepartment(Integer id);
 

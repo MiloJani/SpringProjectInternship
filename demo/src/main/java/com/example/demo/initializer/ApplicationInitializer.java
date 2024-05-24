@@ -98,7 +98,7 @@ public class ApplicationInitializer implements CommandLineRunner {
 
         Departments departments = new Departments();
         if (departmentsRepository.count() == 0) {
-            departments.setDepartment_name("Algorhythm");
+            departments.setDepartmentName("Algorhythm");
             departmentsRepository.save(departments);
         }
 

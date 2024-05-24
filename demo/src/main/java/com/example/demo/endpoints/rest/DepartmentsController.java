@@ -3,6 +3,7 @@ package com.example.demo.endpoints.rest;
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
 import com.example.demo.core.exceptions.RecordNotFoundException;
+import com.example.demo.dataproviders.dto.request.DepartmentDTO;
 import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.services.DepartmentService;
@@ -23,11 +24,18 @@ public class DepartmentsController {
         this.departmentService = departmentService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     ResponseEntity<List<Departments>> getAllDepartments(){
 
         List<Departments> departments = departmentService.getAllDepartments();
         return new ResponseEntity<>(departments, HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{id}")
+    ResponseEntity<DepartmentDTO> getDepartmentById(@PathVariable Integer id){
+
+        DepartmentDTO departmentDTO = departmentService.getDepartmentById(id);
+        return ResponseEntity.ok(departmentDTO);
     }
 
     @GetMapping("/{id}")
@@ -49,15 +57,15 @@ public class DepartmentsController {
     @PostMapping
     ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) throws RecordAlreadyExistsException {
 
-        Integer id = departmentService.addDepartment(department);
-        return ResponseEntity.ok("Departmenti me id:"+id+" u krijua");
+        DepartmentDTO dep = departmentService.addDepartment(department);
+        return ResponseEntity.ok("Departmenti me id:"+dep.getDepartmentId()+" u krijua");
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Departments> updateDepartment(@RequestBody Departments department,
+    ResponseEntity<DepartmentDTO> updateDepartment(@RequestBody Departments department,
                                                  @PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{
 
-        Departments updatedDepartment = departmentService.updateDepartment(department,id);
+        DepartmentDTO updatedDepartment = departmentService.updateDepartment(department,id);
         return ResponseEntity.ok(updatedDepartment);
 
     }

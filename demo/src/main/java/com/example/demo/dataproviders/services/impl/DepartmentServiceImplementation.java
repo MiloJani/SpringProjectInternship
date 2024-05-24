@@ -2,6 +2,7 @@ package com.example.demo.dataproviders.services.impl;
 
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
+import com.example.demo.dataproviders.dto.request.DepartmentDTO;
 import com.example.demo.dataproviders.entities.Departments;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.DepartmentsRepository;
@@ -28,6 +29,15 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
         return departmentsRepository.findAll();
     }
+
+    @Override
+    public DepartmentDTO getDepartmentById(Integer id) throws RecordNotFoundException {
+
+        Departments department = departmentsRepository.findById(id).orElseThrow(() ->
+                new RecordNotFoundException("Nuk u gjet departament me kete id"));
+        return mapToDto(department);
+    }
+
 
     @Override
     public List<EmployeeDTO> getAllEmployeesFromDepartment(Integer id) throws InvalidDataException,RecordNotFoundException {
@@ -90,22 +100,22 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public Integer addDepartment(Departments department) throws RecordAlreadyExistsException {
+    public DepartmentDTO addDepartment(Departments department) throws RecordAlreadyExistsException {
 
         Departments existingDepartment = departmentsRepository
                 .findById(department.getDepartment_id()).orElse(null);
         if (existingDepartment==null) {
             Departments newDepartment = new Departments();
             newDepartment.setDepartment_id(department.getDepartment_id());
-            newDepartment.setDepartment_name(department.getDepartment_name());
+            newDepartment.setDepartmentName(department.getDepartmentName());
             departmentsRepository.save(newDepartment);
-            return newDepartment.getDepartment_id();
+            return mapToDto(newDepartment);
         }
         else throw new RecordAlreadyExistsException("Department already exists");
     }
 
     @Override
-    public Departments updateDepartment(Departments department, Integer id) throws InvalidDataException,RecordNotFoundException {
+    public DepartmentDTO updateDepartment(Departments department, Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -114,9 +124,9 @@ public class DepartmentServiceImplementation implements DepartmentService {
         if (departments.isPresent()){
 
             Departments updateDepartment = departments.get();
-            updateDepartment.setDepartment_name(department.getDepartment_name());
+            updateDepartment.setDepartmentName(department.getDepartmentName());
             departmentsRepository.save(updateDepartment);
-            return updateDepartment;
+            return mapToDto(updateDepartment);
         }
         else throw new RecordNotFoundException(
                 "Nuk u gjet departament me kete id");
@@ -137,5 +147,14 @@ public class DepartmentServiceImplementation implements DepartmentService {
         }
         else throw new RecordNotFoundException(
                 "Nuk u gjet departament me kete id");
+    }
+
+    public DepartmentDTO mapToDto(Departments departments){
+
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setDepartmentId(departments.getDepartment_id());
+        departmentDTO.setDepartmentName(departments.getDepartmentName());
+        return departmentDTO;
+
     }
 }
