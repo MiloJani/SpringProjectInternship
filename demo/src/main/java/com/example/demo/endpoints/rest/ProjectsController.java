@@ -32,9 +32,9 @@ public class ProjectsController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Projects> getProjectById(@PathVariable Integer id) throws InvalidDataException, RecordNotFoundException {
+    ResponseEntity<ProjectDTO> getProjectById(@PathVariable Integer id) throws InvalidDataException, RecordNotFoundException {
 
-        Projects project = projectService.getProjectById(id);
+        ProjectDTO project = projectService.getProjectById(id);
 
         return ResponseEntity.ok(project);
     }
@@ -42,8 +42,8 @@ public class ProjectsController {
     @PostMapping
     ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) throws RecordAlreadyExistsException {
 
-        Integer id = projectService.createProject(projectDTO);
-        return ResponseEntity.ok("Projekti me id: "+id+" u krijua");
+        ProjectDTO project = projectService.createProject(projectDTO);
+        return ResponseEntity.ok("Projekti me id: "+project.getProject_id()+" u krijua:"+project);
     }
 
 //    @PostMapping("/{projectId}")
@@ -57,9 +57,9 @@ public class ProjectsController {
     @PostMapping("/addEmployee")
     ResponseEntity<String> addEmployeeToProject(@RequestBody ProjectEmployeeDTO projectEmployeeDTO) throws InvalidDataException,RecordNotFoundException, EmployeeIsAlreadyInProject {
 
-        Integer id = projectService.addEmployeeToProject(projectEmployeeDTO.getProjectId(), projectEmployeeDTO.getEmployeeId());
-        return ResponseEntity.ok("Employee me id: "+id+
-                " u shtua ne projektin me id: "+projectEmployeeDTO.getProjectId());
+        ProjectEmployeeDTO projectEmployeeDTO1 = projectService.addEmployeeToProject(projectEmployeeDTO.getProjectId(), projectEmployeeDTO.getEmployeeId());
+        return ResponseEntity.ok("Employee me id: "+projectEmployeeDTO1.getEmployeeId()+
+                " u shtua ne projektin me id: "+projectEmployeeDTO1.getProjectId());
     }
 
     @PutMapping("/{id}")

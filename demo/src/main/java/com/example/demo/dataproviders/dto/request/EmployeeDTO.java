@@ -3,11 +3,14 @@ package com.example.demo.dataproviders.dto.request;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class EmployeeDTO {
 
     @Id

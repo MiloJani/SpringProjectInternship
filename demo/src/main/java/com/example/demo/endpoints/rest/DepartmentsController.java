@@ -25,9 +25,9 @@ public class DepartmentsController {
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<Departments>> getAllDepartments(){
+    ResponseEntity<List<DepartmentDTO>> getAllDepartments(){
 
-        List<Departments> departments = departmentService.getAllDepartments();
+        List<DepartmentDTO> departments = departmentService.getAllDepartments();
         return new ResponseEntity<>(departments, HttpStatus.OK);
     }
 
@@ -54,11 +54,12 @@ public class DepartmentsController {
         return ResponseEntity.ok("Total salary e departamentit me id: "+id+" eshte "+sum);
     }
 
-    @PostMapping
-    ResponseEntity<String> addDepartment(@Valid @RequestBody Departments department) throws RecordAlreadyExistsException {
+    @PostMapping("/add")
+    ResponseEntity<DepartmentDTO> addDepartment(@Valid @RequestBody Departments department) throws RecordAlreadyExistsException {
 
         DepartmentDTO dep = departmentService.addDepartment(department);
-        return ResponseEntity.ok("Departmenti me id:"+dep.getDepartmentId()+" u krijua");
+        return new ResponseEntity<>(dep,HttpStatus.CREATED);
+//        return ResponseEntity.ok("Departmenti me id:"+dep.getDepartmentId()+" u krijua");
     }
 
     @PutMapping("/{id}")

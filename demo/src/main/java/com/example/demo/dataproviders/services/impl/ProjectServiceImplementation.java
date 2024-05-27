@@ -3,6 +3,7 @@ package com.example.demo.dataproviders.services.impl;
 import com.example.demo.core.exceptions.EmployeeIsAlreadyInProject;
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
+import com.example.demo.dataproviders.dto.request.ProjectEmployeeDTO;
 import com.example.demo.dataproviders.entities.Employees;
 //import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
@@ -35,29 +36,32 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public Projects getProjectById(Integer id) throws InvalidDataException,RecordNotFoundException {
+    public ProjectDTO getProjectById(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
         }
 
         Optional<Projects> project = projectsRepository.findById(id);
+        if (project.isPresent()){
+            Projects foundProject = project.get();
+            return mapToProjectDTO(foundProject);
+        }else throw new RecordNotFoundException(
+                "Nuk u gjet projekt me kete id");
 
-        return project.orElseThrow(() -> new RecordNotFoundException(
-                "Nuk u gjet projekt me kete id"));
 
     }
 
     @Override
-    public Integer createProject(ProjectDTO projectDTO) throws RecordAlreadyExistsException {
+    public ProjectDTO createProject(ProjectDTO projectDTO) throws RecordAlreadyExistsException {
 
         Projects existingProject = projectsRepository.findById(projectDTO.getProject_id()).orElse(null);
 
         if (existingProject==null) {
 
             Projects newProject = mapToProjectEntity(projectDTO);
-            projectsRepository.save(newProject);
-            return newProject.getProject_id();
+            Projects savedProject = projectsRepository.save(newProject);
+            return mapToProjectDTO(savedProject);
         }
         else throw new RecordAlreadyExistsException("This project already exists");
     }
@@ -128,7 +132,7 @@ public class ProjectServiceImplementation implements ProjectService {
 //    }
 
     @Override
-    public Integer addEmployeeToProject(Integer projectId, Integer employeeId) throws InvalidDataException,RecordNotFoundException,EmployeeIsAlreadyInProject{
+    public ProjectEmployeeDTO addEmployeeToProject(Integer projectId, Integer employeeId) throws InvalidDataException,RecordNotFoundException,EmployeeIsAlreadyInProject{
 
         if (projectId<=0 ||employeeId<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -151,7 +155,8 @@ public class ProjectServiceImplementation implements ProjectService {
 
             projectsRepository.save(foundProject);
 
-            return foundProject.getProject_id();
+                return new ProjectEmployeeDTO(foundProject.getProject_id(),
+                    foundEmployee.getEmployee_id());
             }
             else {
                 throw new EmployeeIsAlreadyInProject("Ky employee eshte ne kete projekt ");

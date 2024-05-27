@@ -1,5 +1,6 @@
 package com.example.demo.dataproviders.services;
 
+import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.dto.request.ProjectDTO;
 
@@ -7,15 +8,15 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    List<Employees> getAllEmployees();
+    List<EmployeeDTO> getAllEmployees();
 
-    Employees getEmployeeById(Integer id);
+    EmployeeDTO getEmployeeById(Integer id);
 
     List<ProjectDTO> getAllEmployeeProjects(Integer id);
 
-    Integer createEmployee(Employees employee);
+    EmployeeDTO createEmployee(Employees employee);
 
-    Employees updateEmployee(Employees employees,Integer id);
+    EmployeeDTO updateEmployee(Employees employees,Integer id);
 
     Integer deleteEmployee(Integer id);
 }

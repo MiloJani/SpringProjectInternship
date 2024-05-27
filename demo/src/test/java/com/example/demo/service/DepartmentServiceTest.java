@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.dataproviders.dto.request.DepartmentDTO;
+import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Departments;
+import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.DepartmentsRepository;
 import com.example.demo.dataproviders.services.impl.DepartmentServiceImplementation;
 import org.assertj.core.api.Assertions;
@@ -12,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,7 +60,7 @@ public class DepartmentServiceTest {
         List<Departments> departmentsAll = List.of(departments);
 
         Mockito.when(departmentsRepository.findAll()).thenReturn(departmentsAll);
-        List<Departments> departmentsList = departmentService.getAllDepartments();
+        List<DepartmentDTO> departmentsList = departmentService.getAllDepartments();
 
         Assertions.assertThat(departmentsList).isNotEmpty();
     }
@@ -111,6 +114,52 @@ public class DepartmentServiceTest {
         Assertions.assertThat(deletedDepId).isNotNull();
         Assertions.assertThat(deletedDepId).isEqualTo(departments.getDepartment_id());
         //assertAll--nqs psh delete kthen void
+    }
+
+    @Test
+    public void departmentService_getDepartmentEmployees_ReturnListOfEmployeeDTO(){
+
+        Employees employees = Employees.builder()
+                .employee_id(1)
+                .first_name("MiloJani")
+                .last_name("Molla")
+                .job_title("Intern")
+                .salary(5000).build();
+        Departments departments = Departments.builder()
+                .department_id(1)
+                .departmentName("Algorhythm")
+                .employees(Collections.singletonList(employees))
+                .build();
+
+        when(departmentsRepository.findById(1)).thenReturn(Optional.of(departments));
+
+        List<EmployeeDTO> employeeDTOS = departmentService.getAllEmployeesFromDepartment(departments.getDepartment_id());
+
+        Assertions.assertThat(employeeDTOS).isNotEmpty();
+        Assertions.assertThat(employeeDTOS.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void departmentsService_getDepartmentEmployeesTotalSalary_ReturnInteger(){
+
+        Employees employees = Employees.builder()
+                .employee_id(1)
+                .first_name("MiloJani")
+                .last_name("Molla")
+                .job_title("Intern")
+                .salary(5000).build();
+        Departments departments = Departments.builder()
+                .department_id(1)
+                .departmentName("Algorhythm")
+                .employees(Collections.singletonList(employees))
+                .build();
+
+        when(departmentsRepository.findById(1)).thenReturn(Optional.of(departments));
+
+        Integer totalSum = departmentService.getTotalEmployeeSalary(departments.getDepartment_id());
+
+        Assertions.assertThat(totalSum).isNotNull();
+        Assertions.assertThat(totalSum).isEqualTo(5000);
     }
 
 }

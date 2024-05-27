@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface DepartmentService {
 
-    List<Departments> getAllDepartments();
+    List<DepartmentDTO> getAllDepartments();
 
     DepartmentDTO getDepartmentById(Integer id);
 

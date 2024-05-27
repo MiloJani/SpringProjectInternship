@@ -29,7 +29,7 @@ public class ProjectRepositoryTest {
                 .project_name("Spring Internship")
                 .start_date(new Date())
                 .end_date(new Date())
-                .employees(new ArrayList<>())
+                .employees(new ArrayList<>()) //import EmployeesRepository,cretae employee and save
                 .build();
 
         Projects savedProject=projectsRepository.save(projects);

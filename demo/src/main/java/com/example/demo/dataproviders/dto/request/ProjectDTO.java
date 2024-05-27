@@ -3,6 +3,7 @@ package com.example.demo.dataproviders.dto.request;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Builder
 public class ProjectDTO {
 
     @Id

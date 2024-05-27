@@ -2,6 +2,7 @@ package com.example.demo.dataproviders.services.impl;
 
 import com.example.demo.core.exceptions.InvalidDataException;
 import com.example.demo.core.exceptions.RecordAlreadyExistsException;
+import com.example.demo.dataproviders.dto.request.EmployeeDTO;
 import com.example.demo.dataproviders.entities.Employees;
 import com.example.demo.dataproviders.repositories.EmployeesRepository;
 import com.example.demo.dataproviders.services.EmployeeService;
@@ -24,21 +25,28 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public List<Employees> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
 
-        return employeesRepository.findAll();
+        List<Employees> employees = employeesRepository.findAll();
+        List<EmployeeDTO> employeeDTOS = new ArrayList<>();
+        for (Employees employee: employees){
+            employeeDTOS.add(mapToDto(employee));
+        }
+        return employeeDTOS;
     }
 
     @Override
-    public Employees getEmployeeById(Integer id) throws InvalidDataException,RecordNotFoundException {
+    public EmployeeDTO getEmployeeById(Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
         }
-        Optional<Employees> employee = employeesRepository.findById(id);
+        Optional<Employees> employees = employeesRepository.findById(id);
 
-        return employee.orElseThrow(() -> new RecordNotFoundException(
-                "Nuk u gjet employee me kete id"));
+        if (employees.isPresent()){
+            Employees employee = employees.get();
+            return mapToDto(employee);
+        }else throw new RecordNotFoundException( "Nuk u gjet employee me kete id");
 
     }
 
@@ -76,21 +84,21 @@ public class EmployeeServiceImplementation implements EmployeeService {
     }
 
     @Override
-    public Integer createEmployee(Employees employee) throws RecordAlreadyExistsException {
+    public EmployeeDTO createEmployee(Employees employee) throws RecordAlreadyExistsException {
 
         Employees existingEmployee = employeesRepository
                 .findById(employee.getEmployee_id()).orElse(null);
 
         if (existingEmployee==null) {
             Employees createEmployee = createEmployeeEntity(employee);
-            employeesRepository.save(createEmployee);
-            return createEmployee.getEmployee_id();
+            Employees savedEmployee = employeesRepository.save(createEmployee);
+            return mapToDto(savedEmployee);
         }
         else throw new RecordAlreadyExistsException("This employee exists");
     }
 
     @Override
-    public Employees updateEmployee(Employees employee, Integer id) throws InvalidDataException,RecordNotFoundException {
+    public EmployeeDTO updateEmployee(Employees employee, Integer id) throws InvalidDataException,RecordNotFoundException {
 
         if (id<=0) {
             throw new InvalidDataException("Id value is not acceptable");
@@ -103,8 +111,8 @@ public class EmployeeServiceImplementation implements EmployeeService {
 //            if (employee.getFirst_name()==null) throw new InvalidDataException("First name is required");
             Employees updateEmployee = employees.get();
             updateEmployee.setSalary(employee.getSalary());
-            employeesRepository.save(updateEmployee);
-            return updateEmployee;
+            Employees savedEmployee = employeesRepository.save(updateEmployee);
+            return mapToDto(savedEmployee);
 
         }else throw  new RecordNotFoundException("Nuk u gjet employee me kete id");
     }
@@ -139,4 +147,15 @@ public class EmployeeServiceImplementation implements EmployeeService {
 //        newEmployee.setProjects(employee.getProjects());
         return newEmployee;
     }
+
+    private EmployeeDTO mapToDto(Employees employee) {
+        return EmployeeDTO.builder()
+                .employee_id(employee.getEmployee_id())
+                .first_name(employee.getFirst_name())
+                .last_name(employee.getLast_name())
+                .job_title(employee.getJob_title())
+                .salary(employee.getSalary())
+                .build();
+    }
+
 }

@@ -25,9 +25,14 @@ public class DepartmentServiceImplementation implements DepartmentService {
     }
 
     @Override
-    public List<Departments> getAllDepartments() {
+    public List<DepartmentDTO> getAllDepartments() {
 
-        return departmentsRepository.findAll();
+        List<Departments> departments= departmentsRepository.findAll();
+        List<DepartmentDTO> departmentDTOS = new ArrayList<>();
+        for (Departments department:departments){
+            departmentDTOS.add(mapToDto(department));
+        }
+        return departmentDTOS;
     }
 
     @Override
