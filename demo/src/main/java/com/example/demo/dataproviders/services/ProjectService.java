@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProjectService {
 
-    List<Projects> getAllProjects();
+    List<ProjectDTO> getAllProjects();
 
     ProjectDTO getProjectById(Integer id);
 

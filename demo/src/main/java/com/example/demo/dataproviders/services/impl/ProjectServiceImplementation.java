@@ -14,6 +14,7 @@ import com.example.demo.dataproviders.entities.Projects;
 import com.example.demo.core.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -30,9 +31,14 @@ public class ProjectServiceImplementation implements ProjectService {
     }
 
     @Override
-    public List<Projects> getAllProjects() {
+    public List<ProjectDTO> getAllProjects() {
 
-        return projectsRepository.findAll();
+        List<Projects> projects = projectsRepository.findAll();
+        List<ProjectDTO> projectDTOS = new ArrayList<>();
+        for (Projects project:projects){
+            projectDTOS.add(mapToProjectDTO(project));
+        }
+        return projectDTOS;
     }
 
     @Override

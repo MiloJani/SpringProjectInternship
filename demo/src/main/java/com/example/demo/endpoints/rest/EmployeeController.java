@@ -23,7 +23,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     ResponseEntity<List<EmployeeDTO>> getAllEmployees(){
 
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
@@ -47,13 +47,12 @@ public class EmployeeController {
         return new ResponseEntity<>(projects,HttpStatus.OK);
 
     }
-    @PostMapping
-    ResponseEntity<String> createEmployee(@RequestBody Employees employee) throws RecordAlreadyExistsException {
-
+    @PostMapping("/add")
+    ResponseEntity<EmployeeDTO> createEmployee(@RequestBody Employees employee) throws RecordAlreadyExistsException {
         EmployeeDTO employeeDTO = employeeService.createEmployee(employee);
-
-        return ResponseEntity.ok("Employee: "+employeeDTO+" u krijua");
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeDTO);
     }
+
 
     @PutMapping("/{id}")
     ResponseEntity<EmployeeDTO> updateEmployee(@RequestBody Employees employee,@PathVariable Integer id) throws InvalidDataException,RecordNotFoundException{

@@ -25,9 +25,9 @@ public class ProjectsController {
     }
 
     @GetMapping
-    ResponseEntity<List<Projects>> getAllProjects(){
+    ResponseEntity<List<ProjectDTO>> getAllProjects(){
 
-        List<Projects> projects = projectService.getAllProjects();
+        List<ProjectDTO> projects = projectService.getAllProjects();
         return new ResponseEntity<>(projects, HttpStatus.OK);
     }
 
@@ -39,7 +39,7 @@ public class ProjectsController {
         return ResponseEntity.ok(project);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) throws RecordAlreadyExistsException {
 
         ProjectDTO project = projectService.createProject(projectDTO);
