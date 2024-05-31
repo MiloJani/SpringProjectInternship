@@ -10,6 +10,7 @@ import com.example.demo.dataproviders.entities.Projects;
 import com.example.demo.dataproviders.services.ProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,10 +41,11 @@ public class ProjectsController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('ADMIN_CREATE')")
     ResponseEntity<String> createProject(@RequestBody ProjectDTO projectDTO) throws RecordAlreadyExistsException {
 
         ProjectDTO project = projectService.createProject(projectDTO);
-        return ResponseEntity.ok("Projekti me id: "+project.getProject_id()+" u krijua:"+project);
+        return ResponseEntity.ok("Projekti me id: "+project.getProject_id()+" u krijua");
     }
 
 //    @PostMapping("/{projectId}")

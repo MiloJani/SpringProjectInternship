@@ -31,9 +31,9 @@ public class RoleController {
     }
 
     @PostMapping
-    ResponseEntity<String> createRole(@RequestBody RoleDTO roleDTO) throws RecordAlreadyExistsException {
-        Integer id= roleService.createRole(roleDTO);
-        return ResponseEntity.ok("Roli me id:"+id+" u krijua");
+    ResponseEntity<String> createRole(@RequestBody Role role) throws RecordAlreadyExistsException {
+        RoleDTO roleDTO= roleService.createRole(role);
+        return ResponseEntity.ok("Roli me id:"+roleDTO.getRoleId()+" u krijua");
     }
 
     @PutMapping("/{id}")

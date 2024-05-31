@@ -29,10 +29,10 @@ public class PermissionsController {
         return new ResponseEntity<>(permissions,HttpStatus.OK );
     }
 
-    @PostMapping
-    ResponseEntity<String> createPermission(@RequestBody PermissionDTO permissionDTO) throws RecordAlreadyExistsException {
-        Integer id= permissionsService.createPermission(permissionDTO);
-        return ResponseEntity.ok("Permission me id:"+id+" u krijua");
+    @PostMapping("/create")
+    ResponseEntity<String> createPermission(@RequestBody Permissions permissions) throws RecordAlreadyExistsException {
+        PermissionDTO permissionDTO= permissionsService.createPermission(permissions);
+        return ResponseEntity.ok("Permission me id:"+permissionDTO.getPermissionId()+" u krijua");
     }
 
     @PutMapping("/{id}")

@@ -9,7 +9,7 @@ import java.util.List;
 public interface PermissionsService {
 
     List<Permissions> getAllPermissions();
-    Integer createPermission(PermissionDTO permissionDTO);
+    PermissionDTO createPermission(Permissions permissions);
 
     Permissions updatePermission(Permissions permissions, Integer id);
 

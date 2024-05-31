@@ -28,15 +28,18 @@ public class PermissionsServiceImplementation implements PermissionsService {
     }
 
     @Override
-    public Integer createPermission(PermissionDTO permissionDTO) throws RecordAlreadyExistsException {
+    public PermissionDTO createPermission(Permissions permissions) throws RecordAlreadyExistsException {
         if (permissionRepository.findPermissionByPermissionName
-                (permissionDTO.getPermissionName()).isPresent()){
-            throw new RecordAlreadyExistsException("Role exists");
+                (permissions.getPermissionName()).isPresent()){
+            throw new RecordAlreadyExistsException("Permission exists");
         }
-        Permissions permission = new Permissions();
-        permission.setPermissionName(permissionDTO.getPermissionName());
-        permissionRepository.save(permission);
-        return permission.getPermissionId();
+        Permissions savedPermission = permissionRepository.save(permissions);
+
+        PermissionDTO permissionDTO = new PermissionDTO();
+        permissionDTO.setPermissionId(savedPermission.getPermissionId());
+        permissionDTO.setPermissionName(savedPermission.getPermissionName());
+
+        return permissionDTO;
     }
 
     @Override

@@ -29,14 +29,15 @@ public class RoleServiceImplementation implements RoleService {
     }
 
     @Override
-    public Integer createRole(RoleDTO role) throws RecordAlreadyExistsException {
+    public RoleDTO createRole(Role role) throws RecordAlreadyExistsException {
         if (roleRepository.findRoleByRoleName(role.getRoleName()).isPresent()){
             throw new RecordAlreadyExistsException("Role exists");
         }
-        Role role1 = new Role();
-        role1.setRoleName(role.getRoleName());
-        roleRepository.save(role1);
-        return role1.getRoleId();
+        RoleDTO roleDTO = new RoleDTO();
+        roleDTO.setRoleId(role.getRoleId());
+        roleDTO.setRoleName(role.getRoleName());
+        roleRepository.save(role);
+        return roleDTO;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.List;
 public interface RoleService {
 
     List<Role> getAllRoles();
-    Integer createRole(RoleDTO role);
+    RoleDTO createRole(Role role);
 
     Role updateRole(Role role, Integer id);
 
